@@ -7,4 +7,13 @@
     <string name="password">Password</string>
     <string name="signup">SignUp</string>
     <string name="login">LogIn</string>
+
+    <!--  Validator  -->
+    <string name="empty_pass">Поле "Пароль" не может быть пустым</string>
+    <string name="empty_second_name">Поле "Фамилия" не может быть пустым</string>
+    <string name="empty_name">Поле "Имя" не может быть пустым</string>
+    <string name="empty_email">Поле "Email" не может быть пустым</string>
+    <string name="password_length">Поле "Пароль" не может содержать меньше 6 символов</string>
+    <string name="email_length">Поле "Email" не может содержать меньше 7 символов</string>
+
 </resources>

@@ -10,16 +10,20 @@ public class User {
     private String password;
     private int accessRights;
 
-    public User(String email, String password) {
-        this.password = password;
-        this.email = email;
-    }
 
     public User(String email, String name, String secondName, String lastName, String password, int accessRights) {
         this.email = email;
         this.name = name;
         this.secondName = secondName;
         this.lastName = lastName;
+        this.password = password;
+        this.accessRights = accessRights;
+    }
+
+    public User(String email, String name, String secondName, String password, int accessRights) {
+        this.email = email;
+        this.name = name;
+        this.secondName = secondName;
         this.password = password;
         this.accessRights = accessRights;
     }
