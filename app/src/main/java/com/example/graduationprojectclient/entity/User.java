@@ -3,7 +3,6 @@ package com.example.graduationprojectclient.entity;
 public class User {
 
     private String email;
-    private Long userId;
     private String name;
     private String secondName;
     private String lastName;

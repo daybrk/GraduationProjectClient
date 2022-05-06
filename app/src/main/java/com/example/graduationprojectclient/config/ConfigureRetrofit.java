@@ -13,8 +13,8 @@ public class ConfigureRetrofit {
 
     private static ApiService apiService;
     private static Retrofit retrofit;
-    public static final String BASE_URL = "http://192.168.0.102:8081";
-    // public static final String BASE_URL = "http://192.168.20.162:8081";
+//    public static final String BASE_URL = "http://192.168.0.102:8081";
+    public static final String BASE_URL = "http://192.168.20.162:8081";
 
     public static void createRetrofit() {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();

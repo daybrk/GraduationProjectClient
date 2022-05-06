@@ -5,7 +5,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.example.graduationprojectclient.R;
-import com.example.graduationprojectclient.activitys.RegistrationActivity;
+import com.example.graduationprojectclient.activity.RegistrationActivity;
 
 public class RegistrationValidator {
 
@@ -35,7 +35,7 @@ public class RegistrationValidator {
             Toast.makeText(context, R.string.empty_email, Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (email.length() < 6) {
+        if (email.length() < 1) {
             Toast.makeText(context, R.string.email_length, Toast.LENGTH_SHORT).show();
             return false;
         }

@@ -29,6 +29,9 @@ public interface ApiService {
     @POST("/registration")
     Call<ResponseBody> createUser(@Body User user);
 
+    @POST("/suggestion/create")
+    Call<ResponseBody> createSuggestion(@Body Suggestion suggestion);
+
     @GET("/suggestion/{emailAuthor}")
     @Headers("Content-type: application/json")
     Call<List<Suggestion>> getSuggestionByEmail(@Path("emailAuthor") String email);

@@ -1,4 +1,4 @@
-package com.example.graduationprojectclient.activitys;
+package com.example.graduationprojectclient.activity;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.graduationprojectclient.config.ConfigureRetrofit;
@@ -60,15 +61,15 @@ public class RegistrationActivity extends AppCompatActivity implements TextWatch
             if (RegistrationValidator.Validator(email, name, secondName, password)) {
                 User user;
                 if (!lastName.equals("")) {
-                     user = new User(email, name, secondName, lastName, password, 1);
+                     user = new User(email, name, secondName, lastName, password, 3);
                 } else {
-                     user = new User(email, name, secondName, password, 1);
+                     user = new User(email, name, secondName, password, 3);
                 }
                 Call<ResponseBody> call = ConfigureRetrofit.getApiService().createUser(user);
                 call.enqueue(new Callback<ResponseBody>() {
 
                      @Override
-                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                     public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                          if (response.isSuccessful()) {
                              System.out.println(response.body() + " TUTTAA");
                              finish();
@@ -77,7 +78,7 @@ public class RegistrationActivity extends AppCompatActivity implements TextWatch
                          }
                      }
                      @Override
-                     public void onFailure(Call<ResponseBody> call, Throwable t) {
+                     public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
 
                      }
                  });

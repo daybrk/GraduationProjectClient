@@ -1,4 +1,4 @@
-package com.example.graduationprojectclient.activitys;
+package com.example.graduationprojectclient.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.graduationprojectclient.MainActivity;
 import com.example.graduationprojectclient.R;
 import com.example.graduationprojectclient.config.ConfigureRetrofit;
 import com.google.android.material.textfield.TextInputEditText;
@@ -53,7 +54,7 @@ public class LogInActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         if (response.isSuccessful()) {
-                            System.out.println(response.body());
+                            MainActivity.EMAIL = email;
                             finish();
                         } else {
                             try {
@@ -74,4 +75,6 @@ public class LogInActivity extends AppCompatActivity {
         });
 
     }
+
 }
+
