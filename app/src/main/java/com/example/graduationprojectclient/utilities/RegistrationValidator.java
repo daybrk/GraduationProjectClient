@@ -1,9 +1,11 @@
-package com.example.graduationprojectclient;
+package com.example.graduationprojectclient.utilities;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.widget.Toast;
+
+import com.example.graduationprojectclient.R;
+import com.example.graduationprojectclient.activitys.RegistrationActivity;
 
 public class RegistrationValidator {
 

@@ -15,5 +15,11 @@
     <string name="empty_email">Поле "Email" не может быть пустым</string>
     <string name="password_length">Поле "Пароль" не может содержать меньше 6 символов</string>
     <string name="email_length">Поле "Email" не может содержать меньше 7 символов</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    <string name="create_suggestion">Создать предложение</string>
+    <string name="suggestion_theme">Тема предложения</string>
+    <string name="suggestion">О чём вы хотите рассказать</string>
 
 </resources>

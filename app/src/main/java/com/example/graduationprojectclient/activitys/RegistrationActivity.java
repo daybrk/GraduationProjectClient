@@ -1,16 +1,18 @@
-package com.example.graduationprojectclient;
+package com.example.graduationprojectclient.activitys;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.graduationprojectclient.config.ConfigureRetrofit;
+import com.example.graduationprojectclient.R;
 import com.example.graduationprojectclient.entity.User;
+import com.example.graduationprojectclient.utilities.RegistrationValidator;
 import com.google.android.material.textfield.TextInputEditText;
 
 import okhttp3.ResponseBody;
