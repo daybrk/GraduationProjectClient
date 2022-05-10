@@ -23,8 +23,9 @@ public interface ApiService {
     @Headers("Content-type: application/json")
     Call<String> logIn(@Path("email") String email, @Path("password") String password);
 
-    @GET("/user")
-    Call<List<User>> getUsers();
+    @GET("/user/{email}")
+    @Headers("Content-type: application/json")
+    Call<User> getUser(@Path("email") String email);
 
     @POST("/registration")
     Call<ResponseBody> createUser(@Body User user);

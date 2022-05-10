@@ -14,6 +14,7 @@ import com.example.graduationprojectclient.MainActivity;
 import com.example.graduationprojectclient.R;
 import com.example.graduationprojectclient.config.ConfigureRetrofit;
 import com.example.graduationprojectclient.entity.Suggestion;
+import com.example.graduationprojectclient.entity.User;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -53,8 +54,8 @@ public class CreateSuggestion extends Fragment {
                                 (suggestionTheme.getText().toString(), suggestionText.getText().toString(),
                                 formattedDate, "1", MainActivity.EMAIL);
 
-                Call<ResponseBody> call = ConfigureRetrofit.getApiService().createSuggestion(suggestion);
-                call.enqueue(new Callback<ResponseBody>() {
+                Call<ResponseBody> call2 = ConfigureRetrofit.getApiService().createSuggestion(suggestion);
+                call2.enqueue(new Callback<ResponseBody>() {
 
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

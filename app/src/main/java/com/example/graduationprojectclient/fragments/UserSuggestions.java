@@ -39,7 +39,7 @@ public class UserSuggestions extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_user_suggestions, container, false);
 
-        Call<List<Suggestion>> call = ConfigureRetrofit.getApiService().getSuggestionByEmail("Илья");
+        Call<List<Suggestion>> call = ConfigureRetrofit.getApiService().getSuggestionByEmail(MainActivity.EMAIL);
         call.enqueue(new Callback<List<Suggestion>>() {
             @Override
             public void onResponse(Call<List<Suggestion>> call, Response<List<Suggestion>> response) {
