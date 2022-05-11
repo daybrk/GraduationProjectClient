@@ -27,6 +27,10 @@ public class User {
         this.accessRights = accessRights;
     }
 
+    public User(String email) {
+        this.email = email;
+    }
+
     public String getName() {
         return name;
     }

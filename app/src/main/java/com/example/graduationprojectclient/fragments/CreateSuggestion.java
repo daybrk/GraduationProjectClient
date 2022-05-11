@@ -3,6 +3,7 @@ package com.example.graduationprojectclient.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +53,7 @@ public class CreateSuggestion extends Fragment {
                 Suggestion suggestion =
                         new Suggestion
                                 (suggestionTheme.getText().toString(), suggestionText.getText().toString(),
-                                formattedDate, "1", MainActivity.EMAIL);
+                                formattedDate, "1", new User(MainActivity.EMAIL));
 
                 Call<ResponseBody> call2 = ConfigureRetrofit.getApiService().createSuggestion(suggestion);
                 call2.enqueue(new Callback<ResponseBody>() {
@@ -60,7 +61,10 @@ public class CreateSuggestion extends Fragment {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
-                            System.out.println(response.body() + " TUTTAA");
+                            FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
+                            fragmentTransaction.replace(R.id.fragment_container, new UserSuggestions(), null);
+                            fragmentTransaction.commit();
+                            System.out.println(MainActivity.getFm());
                         } else {
                             System.out.println(response.errorBody());
                         }

@@ -32,10 +32,11 @@ import retrofit2.Response;
 
 public class UserSuggestions extends Fragment {
 
+    List<Suggestion> suggestions;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        List<Suggestion> suggestions = new ArrayList<>();
 
         View view = inflater.inflate(R.layout.fragment_user_suggestions, container, false);
 
@@ -44,10 +45,10 @@ public class UserSuggestions extends Fragment {
             @Override
             public void onResponse(Call<List<Suggestion>> call, Response<List<Suggestion>> response) {
                 if (response.isSuccessful()) {
-//                        JSONObject userJson = new JSONObject(String.valueOf(response));
-                    for (int i = 0; i < response.body().size(); i++) {
-                        System.out.println(response.body().get(i).getSuggestionDate());
-                    }
+                    suggestions = response.body();
+                    RecyclerView recyclerView = view.findViewById(R.id.suggestion_recycler);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                    recyclerView.setAdapter(new SuggestionRecyclerView(suggestions));
                 } else {
                     System.out.println(response.errorBody());
                 }
@@ -68,11 +69,6 @@ public class UserSuggestions extends Fragment {
                 fragmentTransaction.commit();
             }
         });
-
-        RecyclerView recyclerView = view.findViewById(R.id.suggestion_recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        //TODO: Передать нормальные предложения, а не пустой список
-        recyclerView.setAdapter(new SuggestionRecyclerView(suggestions));
 
         return view;
     }

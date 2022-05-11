@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class Suggestion {
 
-    String suggestionTheme;
     String suggestion;
+    String suggestionTheme;
     String suggestionDate;
     String suggestionStatus;
-    String suggestionAuthor;
+    User suggestionAuthor;
 
-    public Suggestion(String suggestionTheme, String suggestion, String suggestionDate, String suggestionStatus, String suggestionAuthor) {
+    public Suggestion(String suggestionTheme, String suggestion, String suggestionDate, String suggestionStatus, User suggestionAuthor) {
         this.suggestionTheme = suggestionTheme;
         this.suggestion = suggestion;
         this.suggestionDate = suggestionDate;
@@ -53,11 +53,11 @@ public class Suggestion {
         this.suggestionStatus = suggestionStatus;
     }
 
-    public String getSuggestionAuthor() {
+    public User getSuggestionAuthor() {
         return suggestionAuthor;
     }
 
-    public void setSuggestionAuthor(String suggestionAuthor) {
+    public void setSuggestionAuthor(User suggestionAuthor) {
         this.suggestionAuthor = suggestionAuthor;
     }
 }
