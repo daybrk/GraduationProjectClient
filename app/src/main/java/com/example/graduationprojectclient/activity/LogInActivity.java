@@ -55,6 +55,7 @@ public class LogInActivity extends AppCompatActivity {
                     public void onResponse(Call<String> call, Response<String> response) {
                         if (response.isSuccessful()) {
                             MainActivity.EMAIL = email;
+                            MainActivity.setIsLoggedIn(2);
                             finish();
                         } else {
                             try {

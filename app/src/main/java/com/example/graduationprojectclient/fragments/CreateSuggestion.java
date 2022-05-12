@@ -2,14 +2,18 @@ package com.example.graduationprojectclient.fragments;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.graduationprojectclient.MainActivity;
 import com.example.graduationprojectclient.R;
@@ -30,15 +34,46 @@ import retrofit2.Response;
 
 public class CreateSuggestion extends Fragment {
 
+    EditText suggestionTheme;
+    EditText suggestionText;
+    String restoreSuggestionTheme;
+    String restoreSuggestionText;
+
+    public CreateSuggestion(String suggestionTheme, String suggestionText) {
+        this.restoreSuggestionTheme = suggestionTheme;
+        this.restoreSuggestionText = suggestionText;
+    }
+
+    public CreateSuggestion() {
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_create_suggestion, container, false);
 
-        EditText suggestionTheme = view.findViewById(R.id.suggestion_theme_create);
-        EditText suggestionText = view.findViewById(R.id.suggestion_text_create);
+        suggestionTheme = view.findViewById(R.id.suggestion_theme_create);
+        suggestionText = view.findViewById(R.id.suggestion_text_create);
         Button createSuggestion = view.findViewById(R.id.suggestion_create_button);
+
+        if (MainActivity.getSuggestionIsOpen() == 1) {
+            suggestionTheme.setText(restoreSuggestionTheme);
+            suggestionText.setText(restoreSuggestionText);
+        }
+
+
+        // This callback will only be called when MyFragment is at least Started.
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                MainActivity.setSuggestionIsOpen(0);
+                FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, new UserSuggestions(), null);
+                fragmentTransaction.commit();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
 
         createSuggestion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,10 +96,10 @@ public class CreateSuggestion extends Fragment {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
+                            MainActivity.setSuggestionIsOpen(2);
                             FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
                             fragmentTransaction.replace(R.id.fragment_container, new UserSuggestions(), null);
                             fragmentTransaction.commit();
-                            System.out.println(MainActivity.getFm());
                         } else {
                             System.out.println(response.errorBody());
                         }
@@ -79,4 +114,21 @@ public class CreateSuggestion extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        Log.i("Desttttr", "tut");
+        super.onDestroy();
+        if (MainActivity.getSuggestionIsOpen() < 2) {
+            MainActivity.setSuggestionIsOpen(1);
+            MainActivity.setSuggestionTheme(String.valueOf(suggestionTheme.getText()));
+            MainActivity.setSuggestion(String.valueOf(suggestionText.getText()));
+        } else {
+            MainActivity.setSuggestionIsOpen(0);
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+
+
 }
