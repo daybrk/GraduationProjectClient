@@ -9,13 +9,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.graduationprojectclient.ItemTouchHelperAdapter;
 import com.example.graduationprojectclient.R;
 import com.example.graduationprojectclient.entity.Suggestion;
 
 import java.util.List;
 
 
-public class SuggestionRecyclerView extends RecyclerView.Adapter<SuggestionRecyclerView.ViewHolder>{
+public class SuggestionRecyclerView extends RecyclerView.Adapter<SuggestionRecyclerView.ViewHolder>
+        implements ItemTouchHelperAdapter {
 
     private List<Suggestion> suggestions;
 
@@ -42,6 +44,12 @@ public class SuggestionRecyclerView extends RecyclerView.Adapter<SuggestionRecyc
     @Override
     public int getItemCount() {
         return suggestions.size();
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        suggestions.remove(position);
+        notifyItemRemoved(position);
     }
 
 

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.graduationprojectclient.CommunicationWithServerService;
 import com.example.graduationprojectclient.MainActivity;
 import com.example.graduationprojectclient.R;
 import com.example.graduationprojectclient.config.ConfigureRetrofit;
@@ -90,7 +91,7 @@ public class CreateSuggestion extends Fragment {
                                 (suggestionTheme.getText().toString(), suggestionText.getText().toString(),
                                 formattedDate, "1", new User(MainActivity.EMAIL));
 
-                Call<ResponseBody> call2 = ConfigureRetrofit.getApiService().createSuggestion(suggestion);
+                Call<ResponseBody> call2 = CommunicationWithServerService.getApiService().createSuggestion(suggestion);
                 call2.enqueue(new Callback<ResponseBody>() {
 
                     @Override

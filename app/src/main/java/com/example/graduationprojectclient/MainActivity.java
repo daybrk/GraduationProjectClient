@@ -1,24 +1,16 @@
 package com.example.graduationprojectclient;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.graduationprojectclient.activity.LogInActivity;
-import com.example.graduationprojectclient.config.ConfigureRetrofit;
 import com.example.graduationprojectclient.fragments.CreateSuggestion;
+import com.example.graduationprojectclient.fragments.ManagingSuggestion;
 import com.example.graduationprojectclient.fragments.UserSuggestions;
 import com.example.graduationprojectclient.vm.MainViewModel;
-
-import java.util.Observer;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -26,8 +18,9 @@ public class MainActivity extends AppCompatActivity {
     final static String checkLoggedIn = "CheckLoggedIn";
 
     public static String EMAIL;
-    private static FragmentManager fm;
+    public static String ROLE;
 
+    private static FragmentManager fm;
     private static Integer isLoggedIn = 0;
     // 0 - Не открывался
     // 1 - После поворота экрана, нужно восстановить
@@ -43,25 +36,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ConfigureRetrofit.createRetrofit();
-
-        if (isLoggedIn < 2) {
-            Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
-            startActivity(intent);
-        }
-
         fm = getSupportFragmentManager();
-        viewModel =  ViewModelProviders.of(this).get(MainViewModel.class);
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (suggestionIsOpen == 0) {
-            FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
+        FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
+        if (ROLE.equals("USER")) {
             fragmentTransaction.replace(R.id.fragment_container, new UserSuggestions(), null);
-            fragmentTransaction.commit();
+        } else {
+            fragmentTransaction.replace(R.id.fragment_container, new ManagingSuggestion(), null);
         }
+        fragmentTransaction.commit();
+
+        viewModel =  ViewModelProviders.of(this).get(MainViewModel.class);
     }
 
     // сохранение состояния
@@ -74,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        //TODO: Переделать
+        // Нужно для вызова onRestore
         isLoggedIn = savedInstanceState.getInt(checkLoggedIn);
         if (suggestionIsOpen == 1) {
             FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
@@ -81,14 +68,6 @@ public class MainActivity extends AppCompatActivity {
                     new CreateSuggestion(suggestionTheme, suggestion), null);
             fragmentTransaction.commit();
         }
-    }
-
-    public static Integer getIsLoggedIn() {
-        return isLoggedIn;
-    }
-
-    public static void setIsLoggedIn(Integer isLoggedIn) {
-        MainActivity.isLoggedIn = isLoggedIn;
     }
 
     public static Integer getSuggestionIsOpen() {

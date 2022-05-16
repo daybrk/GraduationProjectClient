@@ -33,4 +33,8 @@ public interface ApiService {
     @GET("/suggestion/{emailAuthor}")
     @Headers("Content-type: application/json")
     Call<List<Suggestion>> getSuggestionByEmail(@Path("emailAuthor") String email);
+
+    @GET("/suggestion")
+    @Headers("Content-type: application/json")
+    Call<List<Suggestion>> getAllSuggestion();
 }
