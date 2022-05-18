@@ -12,17 +12,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.graduationprojectclient.ItemTouchHelperAdapter;
 import com.example.graduationprojectclient.R;
 import com.example.graduationprojectclient.entity.Suggestion;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class SuggestionRecyclerView extends RecyclerView.Adapter<SuggestionRecyclerView.ViewHolder>
         implements ItemTouchHelperAdapter {
 
     private List<Suggestion> suggestions;
+    Map<Integer, Suggestion> deletedSuggestion ;
 
     public SuggestionRecyclerView(List<Suggestion> suggestions) {
         this.suggestions = suggestions;
+        deletedSuggestion = new HashMap<>();
     }
 
     @NonNull
@@ -48,10 +54,21 @@ public class SuggestionRecyclerView extends RecyclerView.Adapter<SuggestionRecyc
 
     @Override
     public void onItemDismiss(int position) {
+        deletedSuggestion.put(position, suggestions.get(position));
         suggestions.remove(position);
         notifyItemRemoved(position);
     }
 
+    @Override
+    public void onItemReturned(int position) {
+        suggestions.add(position, deletedSuggestion.get(position));
+        notifyItemInserted(position);
+    }
+
+    @Override
+    public Suggestion findSuggestionByPosition(int position) {
+        return deletedSuggestion.get(position);
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 

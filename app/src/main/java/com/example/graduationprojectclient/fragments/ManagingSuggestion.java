@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.graduationprojectclient.CommunicationWithServerService;
-import com.example.graduationprojectclient.MainActivity;
 import com.example.graduationprojectclient.R;
 import com.example.graduationprojectclient.SimpleItemTouchHelperCallback;
 import com.example.graduationprojectclient.entity.Suggestion;
@@ -47,8 +46,8 @@ public class ManagingSuggestion extends Fragment {
                     recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
                     recyclerView.setAdapter(adapter);
 
-                    ItemTouchHelper.Callback callback =
-                            new SimpleItemTouchHelperCallback(adapter);
+                    SimpleItemTouchHelperCallback callback =
+                            new SimpleItemTouchHelperCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, adapter, view);
                     ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
                     touchHelper.attachToRecyclerView(recyclerView);
                 } else {
