@@ -41,7 +41,7 @@ public class UserSuggestions extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_user_suggestions, container, false);
 
-        Call<List<Suggestion>> call = CommunicationWithServerService.getApiService().getSuggestionByEmail(MainActivity.EMAIL);
+        Call<List<Suggestion>> call = CommunicationWithServerService.getApiService().getSuggestionByEmail(CommunicationWithServerService.getEMAIL());
         call.enqueue(new Callback<List<Suggestion>>() {
             @Override
             public void onResponse(Call<List<Suggestion>> call, Response<List<Suggestion>> response) {

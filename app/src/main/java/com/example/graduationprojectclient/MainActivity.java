@@ -17,9 +17,6 @@ public class MainActivity extends AppCompatActivity {
 
     final static String checkLoggedIn = "CheckLoggedIn";
 
-    public static String EMAIL;
-    public static String ROLE;
-
     private static FragmentManager fm;
     private static Integer isLoggedIn = 0;
     // 0 - Не открывался
@@ -39,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         fm = getSupportFragmentManager();
 
         FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
-        if (ROLE.equals("USER")) {
+        if (CommunicationWithServerService.getROLE().equals("USER")) {
             fragmentTransaction.replace(R.id.fragment_container, new UserSuggestions(), null);
         } else {
             fragmentTransaction.replace(R.id.fragment_container, new ManagingSuggestion(), null);

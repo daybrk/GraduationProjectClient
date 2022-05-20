@@ -1,7 +1,10 @@
 package com.example.graduationprojectclient.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,9 +15,11 @@ import android.widget.Button;
 import com.example.graduationprojectclient.CommunicationWithServerService;
 import com.example.graduationprojectclient.MainActivity;
 import com.example.graduationprojectclient.R;
+import com.example.graduationprojectclient.entity.AuthResponse;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -25,6 +30,7 @@ public class LogInActivity extends AppCompatActivity {
 
     private TextInputEditText ed_email, ed_password;
     private Button but_logIn;
+    private CommunicationWithServerService communicationWithServerService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,36 +42,37 @@ public class LogInActivity extends AppCompatActivity {
         ed_email = (TextInputEditText) findViewById(R.id.user_email);
         ed_password = (TextInputEditText) findViewById(R.id.user_password);
 
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startService(new Intent(LogInActivity.this, CommunicationWithServerService.class));
+            Context context = getApplicationContext();
+            Intent intent = new Intent(LogInActivity.this, CommunicationWithServerService.class);
+            context.startForegroundService(intent);
         }
 
-        but_registration.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        if (CommunicationWithServerService.getEMAIL() == null) {
+            but_registration.setOnClickListener(view -> {
                 Intent intent = new Intent(view.getContext(), RegistrationActivity.class);
                 startActivity(intent);
-            }
-        });
+            });
 
-        but_logIn.setClickable(true);
-        but_logIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            but_logIn.setClickable(true);
+            but_logIn.setOnClickListener(view -> {
 
                 String email = String.valueOf(ed_email.getText());
                 String password = String.valueOf(ed_password.getText());
 
-                Call<String> call = CommunicationWithServerService.getApiService().logIn(email, password);
-                call.enqueue(new Callback<String>() {
+                Call<AuthResponse> call = CommunicationWithServerService.getApiService().logIn(email, password);
+                call.enqueue(new Callback<AuthResponse>() {
 
                     @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
+                    public void onResponse(@NonNull Call<AuthResponse> call, @NonNull Response<AuthResponse> response) {
                         if (response.isSuccessful()) {
-                            Log.i("login", response.body());
                             but_logIn.setClickable(false);
-                            MainActivity.EMAIL = email;
-                            MainActivity.ROLE = response.body();
+                            AuthResponse authResponse = response.body();
+                            assert authResponse != null;
+                            CommunicationWithServerService.setROLE(authResponse.getRole());
+                            CommunicationWithServerService.setEMAIL(email);
+
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
                             try {
@@ -77,14 +84,15 @@ public class LogInActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<String> call, Throwable t) {
+                    public void onFailure(@NonNull Call<AuthResponse> call, @NonNull Throwable t) {
                         t.printStackTrace();
                     }
                 });
 
-            }
-        });
-
+            });
+        } else {
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        }
     }
 
     @Override

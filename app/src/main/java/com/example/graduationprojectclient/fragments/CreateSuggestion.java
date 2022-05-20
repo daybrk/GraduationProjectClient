@@ -89,7 +89,7 @@ public class CreateSuggestion extends Fragment {
                 Suggestion suggestion =
                         new Suggestion
                                 (suggestionTheme.getText().toString(), suggestionText.getText().toString(),
-                                formattedDate, "0", new User(MainActivity.EMAIL));
+                                formattedDate, "0", new User(CommunicationWithServerService.getEMAIL()));
 
                 Call<ResponseBody> call2 = CommunicationWithServerService.getApiService().createSuggestion(suggestion);
                 call2.enqueue(new Callback<ResponseBody>() {

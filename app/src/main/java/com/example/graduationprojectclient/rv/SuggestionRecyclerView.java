@@ -5,13 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.graduationprojectclient.ItemTouchHelperAdapter;
+import com.example.graduationprojectclient.MainActivity;
 import com.example.graduationprojectclient.R;
 import com.example.graduationprojectclient.entity.Suggestion;
+import com.example.graduationprojectclient.fragments.CreateSuggestion;
+import com.example.graduationprojectclient.fragments.ViewingAnSuggestion;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -45,6 +50,14 @@ public class SuggestionRecyclerView extends RecyclerView.Adapter<SuggestionRecyc
         holder.suggestionShorText.setText(suggestions.get(position).getSuggestion());
         holder.suggestionDate.setText(suggestions.get(position).getSuggestionDate());
         holder.suggestionStatus.setText(suggestions.get(position).getSuggestionStatus());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, new ViewingAnSuggestion(suggestions.get(position)), null);
+                fragmentTransaction.commit();
+            }
+        });
     }
 
     @Override
