@@ -5,16 +5,18 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.sql.Struct;
+
 public class Suggestion {
 
     Long suggestionId;
     String suggestion;
     String suggestionTheme;
     String suggestionDate;
-    String suggestionStatus;
+    Status suggestionStatus;
     User suggestionAuthor;
 
-    public Suggestion(String suggestionTheme, String suggestion, String suggestionDate, String suggestionStatus, User suggestionAuthor) {
+    public Suggestion(String suggestionTheme, String suggestion, String suggestionDate, Status suggestionStatus, User suggestionAuthor) {
         this.suggestionTheme = suggestionTheme;
         this.suggestion = suggestion;
         this.suggestionDate = suggestionDate;
@@ -46,11 +48,11 @@ public class Suggestion {
         this.suggestionDate = suggestionDate;
     }
 
-    public String getSuggestionStatus() {
+    public Status getSuggestionStatus() {
         return suggestionStatus;
     }
 
-    public void setSuggestionStatus(String suggestionStatus) {
+    public void setSuggestionStatus(Status suggestionStatus) {
         this.suggestionStatus = suggestionStatus;
     }
 

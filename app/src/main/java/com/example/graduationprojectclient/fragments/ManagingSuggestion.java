@@ -11,9 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.graduationprojectclient.CommunicationWithServerService;
+import com.example.graduationprojectclient.service.CommunicationWithServerService;
 import com.example.graduationprojectclient.R;
-import com.example.graduationprojectclient.SimpleItemTouchHelperCallback;
+import com.example.graduationprojectclient.rv.SimpleItemTouchHelperCallback;
 import com.example.graduationprojectclient.entity.Suggestion;
 import com.example.graduationprojectclient.rv.SuggestionRecyclerView;
 

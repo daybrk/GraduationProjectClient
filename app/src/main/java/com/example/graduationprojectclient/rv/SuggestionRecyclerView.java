@@ -1,25 +1,22 @@
 package com.example.graduationprojectclient.rv;
 
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.graduationprojectclient.ItemTouchHelperAdapter;
+import com.example.graduationprojectclient.interfaces.ItemTouchHelperAdapter;
 import com.example.graduationprojectclient.MainActivity;
 import com.example.graduationprojectclient.R;
 import com.example.graduationprojectclient.entity.Suggestion;
-import com.example.graduationprojectclient.fragments.CreateSuggestion;
 import com.example.graduationprojectclient.fragments.ViewingAnSuggestion;
-import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,11 +42,11 @@ public class SuggestionRecyclerView extends RecyclerView.Adapter<SuggestionRecyc
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SuggestionRecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SuggestionRecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.suggestionTheme.setText(suggestions.get(position).getSuggestionTheme());
         holder.suggestionShorText.setText(suggestions.get(position).getSuggestion());
         holder.suggestionDate.setText(suggestions.get(position).getSuggestionDate());
-        holder.suggestionStatus.setText(suggestions.get(position).getSuggestionStatus());
+        holder.suggestionStatus.setText(suggestions.get(position).getSuggestionStatus().getStatus());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

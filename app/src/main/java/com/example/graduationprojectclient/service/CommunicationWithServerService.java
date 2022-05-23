@@ -1,35 +1,22 @@
-package com.example.graduationprojectclient;
+package com.example.graduationprojectclient.service;
 
-import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.IBinder;
-import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
-import com.example.graduationprojectclient.config.ConfigureRetrofit;
-import com.example.graduationprojectclient.entity.AuthResponse;
+import com.example.graduationprojectclient.interfaces.ApiService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.IOException;
-import java.util.Objects;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -41,8 +28,8 @@ public class CommunicationWithServerService extends Service {
 
     private static ApiService apiService;
     private static Retrofit retrofit;
-    //    public static final String BASE_URL = "http://192.168.0.102:8081";
-    public static final String BASE_URL = "http://192.168.20.162:8081";
+        public static final String BASE_URL = "http://192.168.0.101:8081";
+//    public static final String BASE_URL = "http://192.168.20.162:8081";
     private static String AUTH_KEY = "";
 
     public CommunicationWithServerService() {

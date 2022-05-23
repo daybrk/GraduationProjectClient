@@ -11,19 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.graduationprojectclient.CommunicationWithServerService;
+import com.example.graduationprojectclient.service.CommunicationWithServerService;
 import com.example.graduationprojectclient.MainActivity;
 import com.example.graduationprojectclient.R;
-import com.example.graduationprojectclient.config.ConfigureRetrofit;
 import com.example.graduationprojectclient.entity.Suggestion;
-import com.example.graduationprojectclient.entity.User;
 import com.example.graduationprojectclient.rv.SuggestionRecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -47,6 +41,7 @@ public class UserSuggestions extends Fragment {
             public void onResponse(Call<List<Suggestion>> call, Response<List<Suggestion>> response) {
                 if (response.isSuccessful()) {
                     suggestions = response.body();
+                    System.out.println(suggestions);
                     RecyclerView recyclerView = view.findViewById(R.id.suggestion_recycler);
                     recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
                     recyclerView.setAdapter(new SuggestionRecyclerView(suggestions));

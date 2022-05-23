@@ -13,12 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.example.graduationprojectclient.CommunicationWithServerService;
+import com.example.graduationprojectclient.service.CommunicationWithServerService;
 import com.example.graduationprojectclient.MainActivity;
 import com.example.graduationprojectclient.R;
-import com.example.graduationprojectclient.config.ConfigureRetrofit;
+import com.example.graduationprojectclient.entity.Status;
 import com.example.graduationprojectclient.entity.Suggestion;
 import com.example.graduationprojectclient.entity.User;
 
@@ -89,7 +88,7 @@ public class CreateSuggestion extends Fragment {
                 Suggestion suggestion =
                         new Suggestion
                                 (suggestionTheme.getText().toString(), suggestionText.getText().toString(),
-                                formattedDate, "0", new User(CommunicationWithServerService.getEMAIL()));
+                                formattedDate,new Status(0L), new User(CommunicationWithServerService.getEMAIL()));
 
                 Call<ResponseBody> call2 = CommunicationWithServerService.getApiService().createSuggestion(suggestion);
                 call2.enqueue(new Callback<ResponseBody>() {

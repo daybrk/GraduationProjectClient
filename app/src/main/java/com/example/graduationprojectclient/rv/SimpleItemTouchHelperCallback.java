@@ -1,4 +1,4 @@
-package com.example.graduationprojectclient;
+package com.example.graduationprojectclient.rv;
 
 import android.graphics.Canvas;
 import android.view.View;
@@ -8,10 +8,10 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.graduationprojectclient.entity.Suggestion;
+import com.example.graduationprojectclient.service.CommunicationWithServerService;
+import com.example.graduationprojectclient.R;
+import com.example.graduationprojectclient.interfaces.ItemTouchHelperAdapter;
 import com.google.android.material.snackbar.Snackbar;
-
-import java.util.List;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 import okhttp3.ResponseBody;
@@ -71,7 +71,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
                     public void onDismissed(Snackbar transientBottomBar, int event) {
                         if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
                             Call<ResponseBody> call = CommunicationWithServerService.getApiService()
-                                    .deleteSuggestion(adapter.findSuggestionByPosition(position).getSuggestionId());
+                                    .deleteSuggestion(adapter.findSuggestionByPosition(position).getSuggestionId(), CommunicationWithServerService.getEMAIL());
                             call.enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -103,7 +103,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
                     public void onDismissed(Snackbar transientBottomBar, int event) {
                         if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
                             Call<ResponseBody> call = CommunicationWithServerService.getApiService()
-                                    .confirmSuggestion(adapter.findSuggestionByPosition(position).getSuggestionId());
+                                    .confirmSuggestion(adapter.findSuggestionByPosition(position).getSuggestionId(), CommunicationWithServerService.getEMAIL());
                             call.enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

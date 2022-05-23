@@ -10,8 +10,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.graduationprojectclient.CommunicationWithServerService;
-import com.example.graduationprojectclient.config.ConfigureRetrofit;
+import com.example.graduationprojectclient.service.CommunicationWithServerService;
 import com.example.graduationprojectclient.R;
 import com.example.graduationprojectclient.entity.User;
 import com.example.graduationprojectclient.utilities.RegistrationValidator;
@@ -62,9 +61,9 @@ public class RegistrationActivity extends AppCompatActivity implements TextWatch
             if (RegistrationValidator.Validator(email, name, secondName, password)) {
                 User user;
                 if (!lastName.equals("")) {
-                     user = new User(email, name, secondName, lastName, password, 3);
+                     user = new User(email, name, secondName, lastName, password);
                 } else {
-                     user = new User(email, name, secondName, password, 3);
+                     user = new User(email, name, secondName, password);
                 }
                 Call<ResponseBody> call = CommunicationWithServerService.getApiService().createUser(user);
                 call.enqueue(new Callback<ResponseBody>() {

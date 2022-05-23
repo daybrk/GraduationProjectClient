@@ -7,24 +7,21 @@ public class User {
     private String secondName;
     private String lastName;
     private String password;
-    private int accessRights;
 
 
-    public User(String email, String name, String secondName, String lastName, String password, int accessRights) {
+    public User(String email, String name, String secondName, String lastName, String password) {
         this.email = email;
         this.name = name;
         this.secondName = secondName;
         this.lastName = lastName;
         this.password = password;
-        this.accessRights = accessRights;
     }
 
-    public User(String email, String name, String secondName, String password, int accessRights) {
+    public User(String email, String name, String secondName, String password) {
         this.email = email;
         this.name = name;
         this.secondName = secondName;
         this.password = password;
-        this.accessRights = accessRights;
     }
 
     public User(String email) {
@@ -71,11 +68,5 @@ public class User {
         this.email = email;
     }
 
-    public int getAccessRights() {
-        return accessRights;
-    }
 
-    public void setAccessRights(int accessRights) {
-        this.accessRights = accessRights;
-    }
 }

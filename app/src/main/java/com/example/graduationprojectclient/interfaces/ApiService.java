@@ -1,4 +1,4 @@
-package com.example.graduationprojectclient;
+package com.example.graduationprojectclient.interfaces;
 
 import com.example.graduationprojectclient.entity.AuthResponse;
 import com.example.graduationprojectclient.entity.Suggestion;
@@ -29,11 +29,11 @@ public interface ApiService {
     @POST("/suggestion/create")
     Call<ResponseBody> createSuggestion(@Body Suggestion suggestion);
 
-    @PUT("/suggestion/confirm/{suggestionId}")
-    Call<ResponseBody> confirmSuggestion(@Path("suggestionId") Long suggestionId);
+    @PUT("/suggestion/confirm/{suggestionId}/{suggestionInspector}")
+    Call<ResponseBody> confirmSuggestion(@Path("suggestionId") Long suggestionId, @Path("suggestionInspector") String suggestionInspector);
 
-    @DELETE("/suggestion/delete/{suggestionId}")
-    Call<ResponseBody> deleteSuggestion(@Path("suggestionId") Long suggestionId);
+    @DELETE("/suggestion/delete/{suggestionId}/{suggestionInspector}")
+    Call<ResponseBody> deleteSuggestion(@Path("suggestionId") Long suggestionId, @Path("suggestionInspector") String suggestionInspector);
 
     @GET("/suggestion/{emailAuthor}")
     @Headers("Content-type: application/json")

@@ -1,4 +1,4 @@
-package com.example.graduationprojectclient;
+package com.example.graduationprojectclient.interfaces;
 
 import com.example.graduationprojectclient.entity.Suggestion;
 

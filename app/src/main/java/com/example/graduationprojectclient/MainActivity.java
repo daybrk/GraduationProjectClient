@@ -1,10 +1,7 @@
 package com.example.graduationprojectclient;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -13,10 +10,8 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.graduationprojectclient.fragments.CreateSuggestion;
 import com.example.graduationprojectclient.fragments.ManagingSuggestion;
 import com.example.graduationprojectclient.fragments.UserSuggestions;
+import com.example.graduationprojectclient.service.CommunicationWithServerService;
 import com.example.graduationprojectclient.vm.MainViewModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 
 public class MainActivity extends AppCompatActivity {
