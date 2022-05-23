@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Android Projects/graduationProjectClient/app/src/main/res/drawable/ic_baseline_add_box_24.xml" value="0.326" />
+        <entry key="..\:/Android Projects/graduationProjectClient/app/src/main/res/drawable/ic_name.xml" value="0.319" />
+        <entry key="..\:/Android Projects/graduationProjectClient/app/src/main/res/layout-land/activity_log_in.xml" value="0.18" />
+        <entry key="..\:/Android Projects/graduationProjectClient/app/src/main/res/layout-land/activity_sign_up.xml" value="0.18" />
+        <entry key="..\:/Android Projects/graduationProjectClient/app/src/main/res/layout-land/fragment_user_suggestions.xml" value="0.25" />
+        <entry key="..\:/Android Projects/graduationProjectClient/app/src/main/res/layout-port/activity_log_in.xml" value="0.22" />
+        <entry key="..\:/Android Projects/graduationProjectClient/app/src/main/res/layout-port/activity_main.xml" value="1.1973684210526316" />
+        <entry key="..\:/Android Projects/graduationProjectClient/app/src/main/res/layout-v23/fragment_viewing_an_suggestion.xml" value="0.32971014492753625" />
+        <entry key="..\:/Android Projects/graduationProjectClient/app/src/main/res/layout/activity_log_in.xml" value="0.35885416666666664" />
+        <entry key="..\:/Android Projects/graduationProjectClient/app/src/main/res/layout/activity_main.xml" value="0.35885416666666664" />
+        <entry key="..\:/Android Projects/graduationProjectClient/app/src/main/res/layout/activity_sign_up.xml" value="0.35885416666666664" />
+        <entry key="..\:/Android Projects/graduationProjectClient/app/src/main/res/layout/fragment_create_suggestion.xml" value="0.184375" />
+        <entry key="..\:/Android Projects/graduationProjectClient/app/src/main/res/layout/fragment_managing_suggestion.xml" value="0.16631038905515177" />
+        <entry key="..\:/Android Projects/graduationProjectClient/app/src/main/res/layout/fragment_suggestion.xml" value="0.35885416666666664" />
+        <entry key="..\:/Android Projects/graduationProjectClient/app/src/main/res/layout/fragment_user_suggestions.xml" value="0.184375" />
+        <entry key="..\:/Android Projects/graduationProjectClient/app/src/main/res/layout/fragment_viewing_an_suggestion.xml" value="0.4396936821952776" />
+        <entry key="..\:/Android Projects/graduationProjectClient/app/src/main/res/layout/item_suggestion.xml" value="0.32971014492753625" />
+        <entry key="..\:/Android Projects/graduationProjectClient/app/src/main/res/layout/test.xml" value="0.1513467293715263" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
