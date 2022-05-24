@@ -3,12 +3,15 @@ package com.example.graduationprojectclient.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.example.graduationprojectclient.CheckOrientation;
 import com.example.graduationprojectclient.service.CommunicationWithServerService;
 import com.example.graduationprojectclient.MainActivity;
 import com.example.graduationprojectclient.R;
@@ -27,15 +30,22 @@ public class LogInActivity extends AppCompatActivity {
     private TextInputEditText ed_email, ed_password;
     private Button but_logIn;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
-        but_logIn = (Button) findViewById(R.id.buttonLogin);
-        Button but_registration = (Button) findViewById(R.id.buttonRegistration);
-        ed_email = (TextInputEditText) findViewById(R.id.user_email);
-        ed_password = (TextInputEditText) findViewById(R.id.user_password);
+        if (!CheckOrientation.isTabletDevice(this)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //для портретного режима
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //для альбомного режима
+        }
+
+        but_logIn = findViewById(R.id.buttonLogin);
+        Button but_registration = findViewById(R.id.buttonRegistration);
+        ed_email = findViewById(R.id.user_email);
+        ed_password = findViewById(R.id.user_password);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

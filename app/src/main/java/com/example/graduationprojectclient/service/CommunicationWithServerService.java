@@ -28,8 +28,8 @@ public class CommunicationWithServerService extends Service {
 
     private static ApiService apiService;
     private static Retrofit retrofit;
-        public static final String BASE_URL = "http://192.168.0.101:8081";
-//    public static final String BASE_URL = "http://192.168.20.162:8081";
+//        public static final String BASE_URL = "http://192.168.0.101:8081";
+    public static final String BASE_URL = "http://192.168.20.162:8081";
     private static String AUTH_KEY = "";
 
     public CommunicationWithServerService() {

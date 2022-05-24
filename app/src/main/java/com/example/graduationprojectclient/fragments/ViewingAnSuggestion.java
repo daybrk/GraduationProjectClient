@@ -2,15 +2,19 @@ package com.example.graduationprojectclient.fragments;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.graduationprojectclient.MainActivity;
 import com.example.graduationprojectclient.R;
 import com.example.graduationprojectclient.entity.Suggestion;
+import com.example.graduationprojectclient.service.CommunicationWithServerService;
 
 
 public class ViewingAnSuggestion extends Fragment {
@@ -34,6 +38,21 @@ public class ViewingAnSuggestion extends Fragment {
         suggestionTheme.setText(suggestionData.getSuggestionTheme());
         suggestion.setText(suggestionData.getSuggestion());
         suggestionDate.setText(suggestionData.getSuggestionDate());
+
+        // This callback will only be called when MyFragment is at least Started.
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
+                if (CommunicationWithServerService.getROLE().equals("USER")) {
+                    fragmentTransaction.replace(R.id.fragment_container, new UserSuggestions(), null);
+                } else {
+                    fragmentTransaction.replace(R.id.fragment_container, new ManagingSuggestion(), null);
+                }
+                fragmentTransaction.commit();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
 
         return view;
     }

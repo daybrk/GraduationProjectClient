@@ -57,24 +57,6 @@ public class CreateSuggestion extends Fragment {
         suggestionText = view.findViewById(R.id.suggestion_text_create);
         Button createSuggestion = view.findViewById(R.id.suggestion_create_button);
 
-        if (MainActivity.getSuggestionIsOpen() == 1) {
-            suggestionTheme.setText(restoreSuggestionTheme);
-            suggestionText.setText(restoreSuggestionText);
-        }
-
-
-        // This callback will only be called when MyFragment is at least Started.
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                MainActivity.setSuggestionIsOpen(0);
-                FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new UserSuggestions(), null);
-                fragmentTransaction.commit();
-            }
-        };
-        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
-
         createSuggestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,7 +78,6 @@ public class CreateSuggestion extends Fragment {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
-                            MainActivity.setSuggestionIsOpen(2);
                             FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
                             fragmentTransaction.replace(R.id.fragment_container, new UserSuggestions(), null);
                             fragmentTransaction.commit();
@@ -112,23 +93,18 @@ public class CreateSuggestion extends Fragment {
             }
         });
 
+        // This callback will only be called when MyFragment is at least Started.
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, new UserSuggestions(), null);
+                fragmentTransaction.commit();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+
         return view;
     }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        Log.i("Desttttr", "tut");
-        super.onDestroy();
-        if (MainActivity.getSuggestionIsOpen() < 2) {
-            MainActivity.setSuggestionIsOpen(1);
-            MainActivity.setSuggestionTheme(String.valueOf(suggestionTheme.getText()));
-            MainActivity.setSuggestion(String.valueOf(suggestionText.getText()));
-        } else {
-            MainActivity.setSuggestionIsOpen(0);
-        }
-        super.onSaveInstanceState(outState);
-    }
-
-
 
 }

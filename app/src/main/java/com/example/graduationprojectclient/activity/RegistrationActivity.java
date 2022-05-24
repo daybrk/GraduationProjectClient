@@ -1,6 +1,8 @@
 package com.example.graduationprojectclient.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
@@ -10,6 +12,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.graduationprojectclient.CheckOrientation;
 import com.example.graduationprojectclient.service.CommunicationWithServerService;
 import com.example.graduationprojectclient.R;
 import com.example.graduationprojectclient.entity.User;
@@ -24,26 +27,38 @@ import retrofit2.Response;
 
 public class RegistrationActivity extends AppCompatActivity implements TextWatcher{
 
-    TextInputEditText registrationName, registrationSecondName,
-            registrationLastName, registrationEmail, registrationPassword;
+    TextInputEditText
+            registrationName,
+            registrationSecondName,
+            registrationLastName,
+            registrationEmail,
+            registrationPassword;
+
     Button buttonSignUp;
 
     static Context context;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        if (!CheckOrientation.isTabletDevice(this)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //для портретного режима
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //для альбомного режима
+        }
+
         context = getApplicationContext();
 
-        registrationName = (TextInputEditText) findViewById(R.id.registration_name);
-        registrationSecondName = (TextInputEditText) findViewById(R.id.registration_second_name);
-        registrationLastName = (TextInputEditText) findViewById(R.id.registration_last_name);
-        registrationEmail = (TextInputEditText) findViewById(R.id.registration_email);
-        registrationPassword = (TextInputEditText) findViewById(R.id.registration_password);
+        registrationName = findViewById(R.id.registration_name);
+        registrationSecondName = findViewById(R.id.registration_second_name);
+        registrationLastName = findViewById(R.id.registration_last_name);
+        registrationEmail = findViewById(R.id.registration_email);
+        registrationPassword = findViewById(R.id.registration_password);
 
-        buttonSignUp = (Button) findViewById(R.id.button_sign_up);
+        buttonSignUp = findViewById(R.id.button_sign_up);
 
         registrationName.addTextChangedListener(this);
         registrationSecondName.addTextChangedListener(this);
