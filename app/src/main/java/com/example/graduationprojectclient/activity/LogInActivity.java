@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 
 import com.example.graduationprojectclient.CheckOrientation;
@@ -16,7 +17,10 @@ import com.example.graduationprojectclient.service.CommunicationWithServerServic
 import com.example.graduationprojectclient.MainActivity;
 import com.example.graduationprojectclient.R;
 import com.example.graduationprojectclient.entity.AuthResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -46,7 +50,6 @@ public class LogInActivity extends AppCompatActivity {
         Button but_registration = findViewById(R.id.buttonRegistration);
         ed_email = findViewById(R.id.user_email);
         ed_password = findViewById(R.id.user_password);
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Context context = getApplicationContext();

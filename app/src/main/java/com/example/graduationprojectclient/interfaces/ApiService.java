@@ -39,6 +39,10 @@ public interface ApiService {
     @Headers("Content-type: application/json")
     Call<List<Suggestion>> getSuggestionByEmail(@Path("emailAuthor") String email);
 
+    @GET("/unchecked/suggestion/{emailInspector}")
+    @Headers("Content-type: application/json")
+    Call<List<Suggestion>> getUncheckedSuggestions(@Path("emailInspector") String email);
+
     @GET("/suggestion")
     @Headers("Content-type: application/json")
     Call<List<Suggestion>> getAllSuggestion();
