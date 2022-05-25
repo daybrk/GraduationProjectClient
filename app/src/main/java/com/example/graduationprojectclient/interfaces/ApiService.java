@@ -19,9 +19,11 @@ import retrofit2.http.Path;
 
 public interface ApiService {
 
-    @GET("/login/{email}/{password}")
+    @GET("/login/{email}/{password}/{token}")
     @Headers("Content-type: application/json")
-    Call<AuthResponse> logIn(@Path("email") String email, @Path("password") String password);
+    Call<AuthResponse> logIn(@Path("email") String email,
+                             @Path("password") String password,
+                             @Path("token") String token);
 
     @POST("/registration")
     Call<ResponseBody> createUser(@Body User user);

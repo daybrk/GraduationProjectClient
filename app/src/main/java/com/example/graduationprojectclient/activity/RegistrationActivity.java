@@ -12,7 +12,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.graduationprojectclient.CheckOrientation;
+import com.example.graduationprojectclient.utilities.CheckOrientation;
 import com.example.graduationprojectclient.service.CommunicationWithServerService;
 import com.example.graduationprojectclient.R;
 import com.example.graduationprojectclient.entity.User;

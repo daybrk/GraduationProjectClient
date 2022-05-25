@@ -22,8 +22,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CommunicationWithServerService extends Service {
 
-    private static String EMAIL;
-    private static String ROLE;
     private static boolean isRunning = false;
 
     private static ApiService apiService;
@@ -115,22 +113,6 @@ public class CommunicationWithServerService extends Service {
 
     public static void setAuthKey(String authKey) {
         AUTH_KEY = authKey;
-    }
-
-    public static String getEMAIL() {
-        return EMAIL;
-    }
-
-    public static void setEMAIL(String EMAIL) {
-        CommunicationWithServerService.EMAIL = EMAIL;
-    }
-
-    public static String getROLE() {
-        return ROLE;
-    }
-
-    public static void setROLE(String ROLE) {
-        CommunicationWithServerService.ROLE = ROLE;
     }
 
     public static boolean isRunning() {

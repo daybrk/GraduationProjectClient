@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.graduationprojectclient.activity.LogInActivity;
 import com.example.graduationprojectclient.service.CommunicationWithServerService;
 import com.example.graduationprojectclient.MainActivity;
 import com.example.graduationprojectclient.R;
@@ -70,7 +71,7 @@ public class CreateSuggestion extends Fragment {
                 Suggestion suggestion =
                         new Suggestion
                                 (suggestionTheme.getText().toString(), suggestionText.getText().toString(),
-                                formattedDate,new Status(0L), new User(CommunicationWithServerService.getEMAIL()));
+                                formattedDate,new Status(0L), new User(LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail()));
 
                 Call<ResponseBody> call2 = CommunicationWithServerService.getApiService().createSuggestion(suggestion);
                 call2.enqueue(new Callback<ResponseBody>() {

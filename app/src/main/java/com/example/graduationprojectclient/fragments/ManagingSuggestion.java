@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.graduationprojectclient.activity.LogInActivity;
 import com.example.graduationprojectclient.service.CommunicationWithServerService;
 import com.example.graduationprojectclient.R;
 import com.example.graduationprojectclient.rv.SimpleItemTouchHelperCallback;
@@ -34,7 +35,8 @@ public class ManagingSuggestion extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_managing_suggestion, container, false);
 
-        Call<List<Suggestion>> call = CommunicationWithServerService.getApiService().getUncheckedSuggestions(CommunicationWithServerService.getEMAIL());
+        Call<List<Suggestion>> call = CommunicationWithServerService.getApiService()
+                .getUncheckedSuggestions(LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
         call.enqueue(new Callback<List<Suggestion>>() {
             @Override
             public void onResponse(Call<List<Suggestion>> call, Response<List<Suggestion>> response) {

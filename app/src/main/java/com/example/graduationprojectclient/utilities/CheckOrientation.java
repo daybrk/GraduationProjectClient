@@ -1,4 +1,4 @@
-package com.example.graduationprojectclient;
+package com.example.graduationprojectclient.utilities;
 
 import android.app.Activity;
 import android.content.Context;

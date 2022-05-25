@@ -29,18 +29,10 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         super.onMessageReceived(remoteMessage);
 
         //TODO: Выкидывает если уведомление приходит, когда юзер не залогинелся
-        try {
-            if (!CommunicationWithServerService.getROLE().equals("USER")) {
-                String[] inspectorEmail = remoteMessage.getNotification().getTitle().split("-");
-                if (inspectorEmail[1].equals(CommunicationWithServerService.getEMAIL())) {
-                    sendNotification(remoteMessage.getNotification().getBody(), inspectorEmail);
-                }
-            } else {
-                System.out.println("");
-            }
-        } catch (Exception e) {
-            System.out.println("");
-        }
+
+        String[] inspectorEmail = remoteMessage.getNotification().getTitle().split("-");
+        sendNotification(remoteMessage.getNotification().getBody(), inspectorEmail);
+
     }
 
 

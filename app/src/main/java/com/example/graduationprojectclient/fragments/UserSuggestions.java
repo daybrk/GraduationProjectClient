@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.graduationprojectclient.activity.LogInActivity;
 import com.example.graduationprojectclient.service.CommunicationWithServerService;
 import com.example.graduationprojectclient.MainActivity;
 import com.example.graduationprojectclient.R;
@@ -37,7 +38,8 @@ public class UserSuggestions extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_user_suggestions, container, false);
 
-        Call<List<Suggestion>> call = CommunicationWithServerService.getApiService().getSuggestionByEmail(CommunicationWithServerService.getEMAIL());
+        Call<List<Suggestion>> call = CommunicationWithServerService.getApiService()
+                .getSuggestionByEmail(LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
         call.enqueue(new Callback<List<Suggestion>>() {
             @Override
             public void onResponse(Call<List<Suggestion>> call, Response<List<Suggestion>> response) {

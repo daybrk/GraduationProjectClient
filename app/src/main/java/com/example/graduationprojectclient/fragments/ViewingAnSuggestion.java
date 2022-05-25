@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.graduationprojectclient.MainActivity;
 import com.example.graduationprojectclient.R;
+import com.example.graduationprojectclient.activity.LogInActivity;
 import com.example.graduationprojectclient.entity.Suggestion;
 import com.example.graduationprojectclient.service.CommunicationWithServerService;
 
@@ -44,7 +45,7 @@ public class ViewingAnSuggestion extends Fragment {
             @Override
             public void handleOnBackPressed() {
                 FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
-                if (CommunicationWithServerService.getROLE().equals("USER")) {
+                if (LogInActivity.getInstance().getDb().loginDao().getLogin().getRole().equals("USER")) {
                     fragmentTransaction.replace(R.id.fragment_container, new UserSuggestions(), null);
                 } else {
                     fragmentTransaction.replace(R.id.fragment_container, new ManagingSuggestion(), null);

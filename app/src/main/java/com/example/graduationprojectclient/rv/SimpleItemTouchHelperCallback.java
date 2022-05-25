@@ -8,10 +8,14 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.graduationprojectclient.activity.LogInActivity;
 import com.example.graduationprojectclient.service.CommunicationWithServerService;
 import com.example.graduationprojectclient.R;
 import com.example.graduationprojectclient.interfaces.ItemTouchHelperAdapter;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 import okhttp3.ResponseBody;
@@ -51,7 +55,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
     }
 
     static int position;
-
+    Snackbar snackbar;
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         position = viewHolder.getAdapterPosition();
@@ -59,19 +63,20 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
         switch (direction) {
             case ItemTouchHelper.LEFT:
                 adapter.onItemDismiss(position);
-                Snackbar left = Snackbar.make(view, "Предложение № " + position, Snackbar.LENGTH_LONG);
-                left.setAction("Отменить удаление", new View.OnClickListener() {
+                snackbar = Snackbar.make(view, "Предложение № " + position, Snackbar.LENGTH_LONG);
+                snackbar.setAction("Отменить удаление", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         adapter.onItemReturned(position);
                     }
                 }).show();
-                left.addCallback(new Snackbar.Callback() {
+                snackbar.addCallback(new Snackbar.Callback() {
                     @Override
                     public void onDismissed(Snackbar transientBottomBar, int event) {
                         if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
                             Call<ResponseBody> call = CommunicationWithServerService.getApiService()
-                                    .deleteSuggestion(adapter.findSuggestionByPosition(position).getSuggestionId(), CommunicationWithServerService.getEMAIL());
+                                    .deleteSuggestion(adapter.findSuggestionByPosition(position).getSuggestionId(),
+                                            LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
                             call.enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -83,6 +88,8 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
                                     t.printStackTrace();
                                 }
                             });
+                        } else {
+                            adapter.onItemReturned(position);
                         }
                         super.onDismissed(transientBottomBar, event);
                     }
@@ -91,19 +98,20 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
 
             case ItemTouchHelper.RIGHT:
                 adapter.onItemDismiss(position);
-                Snackbar right = Snackbar.make(view, "Предложение № " + position, Snackbar.LENGTH_LONG);
-                right.setAction("Отменить одобрение", new View.OnClickListener() {
+                snackbar = Snackbar.make(view, "Предложение № " + position, Snackbar.LENGTH_LONG);
+                snackbar.setAction("Отменить одобрение", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         adapter.onItemReturned(position);
                     }
                 }).show();
-                right.addCallback(new Snackbar.Callback() {
+                snackbar.addCallback(new Snackbar.Callback() {
                     @Override
                     public void onDismissed(Snackbar transientBottomBar, int event) {
                         if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
                             Call<ResponseBody> call = CommunicationWithServerService.getApiService()
-                                    .confirmSuggestion(adapter.findSuggestionByPosition(position).getSuggestionId(), CommunicationWithServerService.getEMAIL());
+                                    .confirmSuggestion(adapter.findSuggestionByPosition(position).getSuggestionId(),
+                                            LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
                             call.enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -115,6 +123,8 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
                                     t.printStackTrace();
                                 }
                             });
+                        } else {
+                            adapter.onItemReturned(position);
                         }
                         super.onDismissed(transientBottomBar, event);
                     }
