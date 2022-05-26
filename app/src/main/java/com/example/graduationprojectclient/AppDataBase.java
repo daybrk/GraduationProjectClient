@@ -12,7 +12,7 @@ import com.example.graduationprojectclient.interfaces.LoginDao;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Login.class}, version = 1)
+@Database(entities = {Login.class}, version = 1, exportSchema = false)
 abstract public class AppDataBase extends RoomDatabase {
     public abstract LoginDao loginDao();
 

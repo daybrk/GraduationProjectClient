@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
@@ -15,18 +16,25 @@ import com.example.graduationprojectclient.fragments.UserSuggestions;
 import com.example.graduationprojectclient.utilities.CheckOrientation;
 import com.example.graduationprojectclient.vm.MainViewModel;
 
+import java.util.Objects;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private static FragmentManager fm;
 
     MainViewModel viewModel;
+    Toolbar toolbar;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         if (!CheckOrientation.isTabletDevice(this)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //для портретного режима

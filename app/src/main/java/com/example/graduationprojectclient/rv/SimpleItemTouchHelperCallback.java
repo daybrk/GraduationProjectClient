@@ -39,9 +39,9 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder,
                             float dX, float dY, int actionState, boolean isCurrentlyActive) {
         new RecyclerViewSwipeDecorator.Builder(view.getContext(), c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                .addSwipeLeftBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorAccent))
+                .addSwipeLeftBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.delete))
                 .addSwipeLeftActionIcon(R.drawable.ic_baseline_delete_sweep_24)
-                .addSwipeRightBackgroundColor(R.color.colorAccent)
+                .addSwipeRightBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.accept))
                 .addSwipeRightActionIcon(R.drawable.ic_baseline_assignment_turned_in_24)
                 .create()
                 .decorate();
@@ -54,12 +54,13 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
         return false;
     }
 
+    boolean is = false;
     static int position;
     Snackbar snackbar;
+    //TODO: Переделать логику множественного одобрения/удаления
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         position = viewHolder.getAdapterPosition();
-
         switch (direction) {
             case ItemTouchHelper.LEFT:
                 adapter.onItemDismiss(position);
@@ -68,6 +69,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
                     @Override
                     public void onClick(View view) {
                         adapter.onItemReturned(position);
+                        is = true;
                     }
                 }).show();
                 snackbar.addCallback(new Snackbar.Callback() {
@@ -89,7 +91,11 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
                                 }
                             });
                         } else {
-                            adapter.onItemReturned(position);
+                            if (!is) {
+                                adapter.onItemReturned(position);
+                            } else {
+                                is = false;
+                            }
                         }
                         super.onDismissed(transientBottomBar, event);
                     }
@@ -103,6 +109,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
                     @Override
                     public void onClick(View view) {
                         adapter.onItemReturned(position);
+                        is = true;
                     }
                 }).show();
                 snackbar.addCallback(new Snackbar.Callback() {
@@ -124,8 +131,11 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
                                 }
                             });
                         } else {
-                            adapter.onItemReturned(position);
-                        }
+                            if (!is) {
+                                adapter.onItemReturned(position);
+                            } else {
+                                is = false;
+                            }                        }
                         super.onDismissed(transientBottomBar, event);
                     }
                 });

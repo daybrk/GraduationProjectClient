@@ -2,6 +2,7 @@ package com.example.graduationprojectclient.rv;
 
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,23 @@ public class SuggestionRecyclerView extends RecyclerView.Adapter<SuggestionRecyc
         holder.suggestionTheme.setText(suggestions.get(position).getSuggestionTheme());
         holder.suggestionShorText.setText(suggestions.get(position).getSuggestion());
         holder.suggestionDate.setText(suggestions.get(position).getSuggestionDate());
-        holder.suggestionStatus.setText(suggestions.get(position).getSuggestionStatus().getStatus());
+        switch (suggestions.get(position).getSuggestionStatus().getStatus()) {
+            case "На рассмотрении":
+                holder.suggestionStatus.setText(R.string.on_moderation);
+                int colorModeration = holder.itemView.getResources().getColor(R.color.on_moderation);
+                holder.suggestionStatus.setTextColor(colorModeration);
+                break;
+            case "Одобрено":
+                holder.suggestionStatus.setText(R.string.accept);
+                int colorAccept = holder.itemView.getResources().getColor(R.color.accept);
+                holder.suggestionStatus.setTextColor(colorAccept);
+                break;
+            case "Отклонено":
+                holder.suggestionStatus.setText(R.string.canceled);
+                int colorCanceled = holder.itemView.getResources().getColor(R.color.canceled);
+                holder.suggestionStatus.setTextColor(colorCanceled);
+                break;
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

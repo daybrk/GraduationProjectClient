@@ -21,5 +21,10 @@
     <string name="create_suggestion">Создать предложение</string>
     <string name="suggestion_theme">Тема предложения</string>
     <string name="suggestion">О чём вы хотите рассказать</string>
+    <string name="suggestion_2">О чём хотят рассказать</string>
+    <string name="title">Предложения</string>
 
+    <string name="accept">✓</string>
+    <string name="on_moderation">⭘</string>
+    <string name="canceled">✗</string>
 </resources>

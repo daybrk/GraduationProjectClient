@@ -15,7 +15,6 @@ import com.example.graduationprojectclient.MainActivity;
 import com.example.graduationprojectclient.R;
 import com.example.graduationprojectclient.activity.LogInActivity;
 import com.example.graduationprojectclient.entity.Suggestion;
-import com.example.graduationprojectclient.service.CommunicationWithServerService;
 
 
 public class ViewingAnSuggestion extends Fragment {
@@ -32,9 +31,9 @@ public class ViewingAnSuggestion extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_viewing_an_suggestion, container, false);
 
-        TextView suggestionTheme = view.findViewById(R.id.tv_suggestion_theme);
-        TextView suggestion = view.findViewById(R.id.tv_suggestion);
-        TextView suggestionDate = view.findViewById(R.id.tv_suggestion_date);
+        TextView suggestionTheme = (TextView) view.findViewById(R.id.tv_suggestion_theme);
+        TextView suggestion = (TextView) view.findViewById(R.id.tv_suggestion);
+        TextView suggestionDate = (TextView) view.findViewById(R.id.tv_suggestion_date);
 
         suggestionTheme.setText(suggestionData.getSuggestionTheme());
         suggestion.setText(suggestionData.getSuggestion());

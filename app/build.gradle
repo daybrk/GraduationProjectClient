@@ -47,6 +47,7 @@ dependencies {
     implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.3'
     implementation 'com.google.firebase:firebase-messaging:23.0.5'
     implementation "android.arch.persistence.room:runtime:1.1.1"
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
