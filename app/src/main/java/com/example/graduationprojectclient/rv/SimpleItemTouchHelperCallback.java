@@ -14,9 +14,6 @@ import com.example.graduationprojectclient.R;
 import com.example.graduationprojectclient.interfaces.ItemTouchHelperAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -77,7 +74,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
                     public void onDismissed(Snackbar transientBottomBar, int event) {
                         if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
                             Call<ResponseBody> call = CommunicationWithServerService.getApiService()
-                                    .deleteSuggestion(adapter.findSuggestionByPosition(position).getSuggestionId(),
+                                    .canceledSuggestion(adapter.findSuggestionByPosition(position).getSuggestionId(),
                                             LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
                             call.enqueue(new Callback<ResponseBody>() {
                                 @Override

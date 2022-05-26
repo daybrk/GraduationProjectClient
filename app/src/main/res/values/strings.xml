@@ -19,12 +19,20 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="create_suggestion">Создать предложение</string>
-    <string name="suggestion_theme">Тема предложения</string>
+    <string name="suggestion_theme">Тема предложения:</string>
     <string name="suggestion">О чём вы хотите рассказать</string>
-    <string name="suggestion_2">О чём хотят рассказать</string>
+    <string name="suggestion_2">О чём хотят рассказать:</string>
+    <string name="suggestion_3">О чём вы рассказали:</string>
     <string name="title">Предложения</string>
+    <string name="title_user">Ваши предложения</string>
 
     <string name="accept">✓</string>
+    <string name="accept_text">Принять</string>
+    <string name="accept_text_user">✓ - Предложение принято</string>
     <string name="on_moderation">⭘</string>
+    <string name="on_moderation_text">⭘ - На рассмотрении</string>
     <string name="canceled">✗</string>
+    <string name="canceled_text">Отклонить</string>
+    <string name="canceled_text_user">✗ - Предложение отклонено</string>
+
 </resources>

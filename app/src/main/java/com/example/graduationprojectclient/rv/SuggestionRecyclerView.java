@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.graduationprojectclient.activity.LogInActivity;
 import com.example.graduationprojectclient.interfaces.ItemTouchHelperAdapter;
 import com.example.graduationprojectclient.MainActivity;
 import com.example.graduationprojectclient.R;
@@ -37,8 +38,14 @@ public class SuggestionRecyclerView extends RecyclerView.Adapter<SuggestionRecyc
     @NonNull
     @Override
     public SuggestionRecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_suggestion, parent, false);
+        View view;
+        if (LogInActivity.getInstance().getDb().loginDao().getLogin().getRole().equals("USER")) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_suggestion_user, parent, false);
+        } else {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_suggestion, parent, false);
+        }
         return new ViewHolder(view);
     }
 

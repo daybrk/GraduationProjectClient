@@ -22,12 +22,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CommunicationWithServerService extends Service {
 
-    private static boolean isRunning = false;
 
     private static ApiService apiService;
     private static Retrofit retrofit;
-//        public static final String BASE_URL = "http://192.168.0.101:8081";
-    public static final String BASE_URL = "http://192.168.20.162:8081";
+        public static final String BASE_URL = "http://192.168.0.101:8081";
+//    public static final String BASE_URL = "http://192.168.20.162:8081";
     private static String AUTH_KEY = "";
 
     public CommunicationWithServerService() {
@@ -47,28 +46,7 @@ public class CommunicationWithServerService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-            NotificationChannel channel = new NotificationChannel(
-                    "MyChannelId",
-                    "My Foreground Service",
-                    NotificationManager.IMPORTANCE_NONE);
-
-            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            assert manager != null;
-            manager.createNotificationChannel(channel);
-
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
-                    this, "MyChannelId");
-
-            Notification notification = notificationBuilder
-                    .setChannelId("MyChannelId")
-                    .build();
-
-            startForeground(1, notification);
-        }
-
-        if (!isRunning) {
             HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
             httpLoggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
 
@@ -87,8 +65,6 @@ public class CommunicationWithServerService extends Service {
 
             retrofit = retrofitBuilder.build();
             apiService = retrofit.create(ApiService.class);
-            isRunning = true;
-        }
 
         return START_STICKY;
     }
@@ -115,7 +91,5 @@ public class CommunicationWithServerService extends Service {
         AUTH_KEY = authKey;
     }
 
-    public static boolean isRunning() {
-        return isRunning;
-    }
+
 }

@@ -56,11 +56,8 @@ public class LogInActivity extends AppCompatActivity {
         ed_email = findViewById(R.id.user_email);
         ed_password = findViewById(R.id.user_password);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Context context = getApplicationContext();
-            Intent intent = new Intent(LogInActivity.this, CommunicationWithServerService.class);
-            context.startForegroundService(intent);
-        }
+        Context context = getApplicationContext();
+        context.startService(new Intent(LogInActivity.this, CommunicationWithServerService.class));
 
         if (db.loginDao().getLogin() == null) {
             but_registration.setOnClickListener(view -> {
@@ -143,6 +140,7 @@ public class LogInActivity extends AppCompatActivity {
     public static LogInActivity getInstance() {
         return instance;
     }
+
 
     @Override
     protected void onResume() {

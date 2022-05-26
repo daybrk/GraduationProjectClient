@@ -39,7 +39,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
     private void sendNotification(String messageBody, String[] inspectorEmail) {
 
-        Log.i("TAGTAGTAGTAGTAG", "TAGTAGTAGTAGTAG");
         Intent intent = new Intent(this, MainActivity.class);
         @SuppressLint("UnspecifiedImmutableFlag")
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,

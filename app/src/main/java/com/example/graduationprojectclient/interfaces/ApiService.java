@@ -35,7 +35,7 @@ public interface ApiService {
     Call<ResponseBody> confirmSuggestion(@Path("suggestionId") Long suggestionId, @Path("suggestionInspector") String suggestionInspector);
 
     @DELETE("/suggestion/delete/{suggestionId}/{suggestionInspector}")
-    Call<ResponseBody> deleteSuggestion(@Path("suggestionId") Long suggestionId, @Path("suggestionInspector") String suggestionInspector);
+    Call<ResponseBody> canceledSuggestion(@Path("suggestionId") Long suggestionId, @Path("suggestionInspector") String suggestionInspector);
 
     @GET("/suggestion/{emailAuthor}")
     @Headers("Content-type: application/json")
