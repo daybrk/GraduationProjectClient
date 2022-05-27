@@ -48,7 +48,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_text" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_text_field" />
 
             <TextView
                 android:id="@+id/tv_suggestion_theme"
@@ -62,7 +62,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
             <TextView
-                android:id="@+id/tv_suggesstion_author"
+                android:id="@+id/tv_suggestion_author"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:layout_marginStart="10dp"
@@ -75,25 +75,38 @@
 
             <TextView
                 android:id="@+id/tv_theme"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
                 android:textColor="#000000"
                 android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_suggestion_theme" />
 
-            <TextView
-                android:id="@+id/tv_text"
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tv_text_field"
+                style="@style/LoginTextInputLayoutStyle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:textColor="#000000"
-                android:textSize="17sp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_suggestion" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_suggestion">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tv_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/suggestion_3"
+                    android:textColor="#000000"
+                    android:textSize="17sp"
+                    android:editable="false"
+                    tools:ignore="SpeakableTextPresentCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/tv_canceled"
@@ -101,10 +114,10 @@
                 android:layout_height="22dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="10dp"
+                android:background="?attr/selectableItemBackground"
                 android:text="@string/canceled_text"
                 android:textColor="#FE3B30"
                 android:textSize="17sp"
-                android:background="?attr/selectableItemBackground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_suggestion_date"
                 tools:ignore="TextContrastCheck" />
@@ -115,10 +128,10 @@
                 android:layout_height="22dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
+                android:background="?attr/selectableItemBackground"
                 android:text="@string/accept_text"
                 android:textColor="@color/accept"
                 android:textSize="17sp"
-                android:background="?attr/selectableItemBackground"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_suggestion_date"
                 tools:ignore="TextContrastCheck" />

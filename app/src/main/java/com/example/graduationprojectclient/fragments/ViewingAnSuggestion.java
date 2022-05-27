@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,12 +40,12 @@ public class ViewingAnSuggestion extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_viewing_an_suggestion, container, false);
+        View view = inflater.inflate(R.layout.fragment_viewing_an_sugg, container, false);
 
         TextView suggestionTheme = (TextView) view.findViewById(R.id.tv_theme);
-        TextView suggestion = (TextView) view.findViewById(R.id.tv_text);
+        EditText suggestion = (EditText) view.findViewById(R.id.tv_text);
         TextView suggestionDate = (TextView) view.findViewById(R.id.tv_suggestion_date);
-        TextView suggestionAuthor = (TextView) view.findViewById(R.id.tv_suggesstion_author);
+        TextView suggestionAuthor = (TextView) view.findViewById(R.id.tv_suggestion_author);
         TextView suggestionAccept = (TextView) view.findViewById(R.id.tv_accept);
         TextView suggestionCanceled = (TextView) view.findViewById(R.id.tv_canceled);
 

@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private static FragmentManager fm;
 
     MainViewModel viewModel;
-    Toolbar toolbar;
+    private static MainActivity instance;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -32,9 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        instance = this;
 
         if (!CheckOrientation.isTabletDevice(this)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //для портретного режима
@@ -58,4 +56,11 @@ public class MainActivity extends AppCompatActivity {
         return fm;
     }
 
+    public static MainActivity getInstance() {
+        return instance;
+    }
+
+    public void logout() {
+        finish();
+    }
 }

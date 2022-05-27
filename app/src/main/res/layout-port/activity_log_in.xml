@@ -65,7 +65,6 @@
 
         <Button
             android:id="@+id/buttonLogin"
-            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="100dp"
@@ -73,6 +72,7 @@
             android:backgroundTint="@color/colorAccent"
             android:text="@string/login"
             android:textAllCaps="false"
+            android:textColor="#FFFFFF"
             app:layout_constraintEnd_toStartOf="@+id/buttonRegistration"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_password"
@@ -80,7 +80,6 @@
 
         <Button
             android:id="@+id/buttonRegistration"
-            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="17dp"
@@ -89,6 +88,7 @@
             android:backgroundTint="@color/colorAccent"
             android:text="@string/signup"
             android:textAllCaps="false"
+            android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/buttonLogin"
             app:layout_constraintTop_toBottomOf="@+id/user_password"

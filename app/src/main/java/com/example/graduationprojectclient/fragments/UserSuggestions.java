@@ -3,6 +3,7 @@ package com.example.graduationprojectclient.fragments;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.graduationprojectclient.activity.LogInActivity;
 import com.example.graduationprojectclient.service.CommunicationWithServerService;
@@ -23,6 +25,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,12 +34,35 @@ import retrofit2.Response;
 public class UserSuggestions extends Fragment {
 
     List<Suggestion> suggestions;
+    Button button;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_user_suggestions, container, false);
+
+        button = view.findViewById(R.id.button_exit);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Call<ResponseBody> call = CommunicationWithServerService.getApiService()
+                        .logout(LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                        LogInActivity.getInstance().getDb().loginDao()
+                                .delete(LogInActivity.getInstance().getDb().loginDao().getLogin());
+                        MainActivity.getInstance().logout();
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+
+                    }
+                });
+            }
+        });
 
         Call<List<Suggestion>> call = CommunicationWithServerService.getApiService()
                 .getSuggestionByEmail(LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());

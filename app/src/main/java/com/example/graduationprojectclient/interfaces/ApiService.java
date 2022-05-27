@@ -19,7 +19,7 @@ import retrofit2.http.Path;
 
 public interface ApiService {
 
-    @GET("/login/{email}/{password}/{token}")
+    @POST("/login/{email}/{password}/{token}")
     @Headers("Content-type: application/json")
     Call<AuthResponse> logIn(@Path("email") String email,
                              @Path("password") String password,
@@ -27,6 +27,9 @@ public interface ApiService {
 
     @POST("/registration")
     Call<ResponseBody> createUser(@Body User user);
+
+    @POST("/logout/{email}")
+    Call<ResponseBody> logout(@Path("email") String email);
 
     @POST("/suggestion/create")
     Call<ResponseBody> createSuggestion(@Body Suggestion suggestion);
