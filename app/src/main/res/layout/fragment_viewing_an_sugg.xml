@@ -31,17 +31,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_suggestion"
-                android:layout_width="0dp"
-                android:layout_height="19dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/suggestion_2"
-                android:textColor="#000000"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_theme" />
-
-            <TextView
                 android:id="@+id/tv_suggestion_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,17 +40,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_text_field" />
 
             <TextView
-                android:id="@+id/tv_suggestion_theme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/suggestion_theme"
-                android:textColor="#000000"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-            <TextView
                 android:id="@+id/tv_suggestion_author"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
@@ -69,22 +47,33 @@
                 android:layout_marginTop="16dp"
                 android:textColor="#000000"
                 android:textSize="19sp"
-                android:textStyle="normal"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_theme"
-                android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tv_theme_field"
+                style="@style/LoginTextInputLayoutStyle"
+                android:hint="@string/suggestion_theme"
+                android:textColorHint="#2196F3"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:textColor="#000000"
-                android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_suggestion_theme" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tv_theme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:textColor="#000000"
+                    android:textSize="17sp"
+                    tools:ignore="TextContrastCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tv_text_field"
@@ -92,20 +81,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
+                android:hint="@string/suggestion_2"
+                android:textColorHint="#2196F3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_suggestion">
+                app:layout_constraintTop_toBottomOf="@+id/tv_theme_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tv_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="@string/suggestion_3"
+                    android:editable="false"
                     android:textColor="#000000"
                     android:textSize="17sp"
-                    android:editable="false"
-                    tools:ignore="SpeakableTextPresentCheck" />
+                    tools:ignore="SpeakableTextPresentCheck,TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView

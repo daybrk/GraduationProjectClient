@@ -20,31 +20,36 @@
         <View
             android:layout_width="0dp"
             android:layout_height="0.5dp"
-            android:background="#3C3C43"
+            android:layout_marginTop="8dp"
             android:alpha="0.33"
+            android:background="#3C3C43"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView" />
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/suggestion_short_text"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/suggestion_theme"
             android:layout_width="0dp"
             android:layout_height="21dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="100dp"
             android:textColor="#000000"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/suggetion_status"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/suggestion_status"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/suggestion_short_text"
             android:layout_width="0dp"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="10dp"
             android:maxLength="100"
             android:textColor=" #8E8E93"
             android:textSize="15sp"
@@ -54,11 +59,11 @@
             app:layout_constraintTop_toBottomOf="@+id/suggestion_theme" />
 
         <TextView
-            android:id="@+id/suggetion_date"
+            android:id="@+id/suggestion_date"
             android:layout_width="wrap_content"
             android:layout_height="17dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="10dp"
             android:textColor="#8E8E93"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/suggestion_theme"
@@ -66,25 +71,25 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/suggetion_status"
+            android:id="@+id/suggestion_status"
             android:layout_width="wrap_content"
             android:layout_height="17dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="10dp"
             android:text="@string/accept"
             android:textColor="#21C004"
             android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/suggestion_short_text"
-            app:layout_constraintEnd_toStartOf="@+id/suggetion_date"
+            app:layout_constraintEnd_toStartOf="@+id/suggestion_date"
             app:layout_constraintTop_toTopOf="parent" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageView"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:adjustViewBounds="false"
             android:src="@drawable/common_google_signin_btn_icon_light_normal"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -20,6 +20,8 @@ import com.example.graduationprojectclient.activity.LogInActivity;
 import com.example.graduationprojectclient.entity.Suggestion;
 import com.example.graduationprojectclient.service.CommunicationWithServerService;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -42,12 +44,12 @@ public class ViewingAnSuggestion extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_viewing_an_sugg, container, false);
 
-        TextView suggestionTheme = (TextView) view.findViewById(R.id.tv_theme);
-        EditText suggestion = (EditText) view.findViewById(R.id.tv_text);
-        TextView suggestionDate = (TextView) view.findViewById(R.id.tv_suggestion_date);
-        TextView suggestionAuthor = (TextView) view.findViewById(R.id.tv_suggestion_author);
-        TextView suggestionAccept = (TextView) view.findViewById(R.id.tv_accept);
-        TextView suggestionCanceled = (TextView) view.findViewById(R.id.tv_canceled);
+        TextView suggestionTheme = view.findViewById(R.id.tv_theme);
+        EditText suggestion = view.findViewById(R.id.tv_text);
+        TextView suggestionDate = view.findViewById(R.id.tv_suggestion_date);
+        TextView suggestionAuthor = view.findViewById(R.id.tv_suggestion_author);
+        TextView suggestionAccept = view.findViewById(R.id.tv_accept);
+        TextView suggestionCanceled = view.findViewById(R.id.tv_canceled);
 
         suggestionTheme.setText(suggestionData.getSuggestionTheme());
         suggestion.setText(suggestionData.getSuggestion());
@@ -56,8 +58,8 @@ public class ViewingAnSuggestion extends Fragment {
         suggestionAuthor.setText(name);
 
         if (LogInActivity.getInstance().getDb().loginDao().getLogin().getRole().equals("USER")) {
-            TextView suggestionTitle = (TextView) view.findViewById(R.id.tv_suggestion);
-            suggestionTitle.setText(R.string.suggestion_3);
+            TextInputLayout suggestionHint = view.findViewById(R.id.tv_text_field);
+            suggestionHint.setHint(R.string.suggestion_3);
             suggestionAccept.setVisibility(View.INVISIBLE);
             switch (suggestionData.getSuggestionStatus().getStatus()) {
                 case "На рассмотрении":

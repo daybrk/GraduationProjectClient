@@ -22,7 +22,7 @@
     <string name="suggestion_theme">Тема предложения:</string>
     <string name="suggestion">О чём вы хотите рассказать</string>
     <string name="suggestion_2">О чём хотят рассказать:</string>
-    <string name="suggestion_3">О чём вы рассказали:</string>
+    <string name="suggestion_3"><font size="36">О чём вы рассказали:</font></string>
     <string name="title">Предложения</string>
     <string name="title_user">Ваши предложения</string>
 

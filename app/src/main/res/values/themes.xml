@@ -24,6 +24,15 @@
 
     <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">#2196F3</item>
-        <item name="boxStrokeWidth">2dp</item>
+        <item name="hintTextColor">#2196F3</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+        <item name="colorControlActivated">#2196F3</item>
     </style>
+
+    <style name="ThemeOverlay.AppTheme.TextInputEditText.Outlined" parent="">
+        <item name="colorControlActivated">#2196F3</item>
+    </style>
+
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#2196F3</color>
 </resources>

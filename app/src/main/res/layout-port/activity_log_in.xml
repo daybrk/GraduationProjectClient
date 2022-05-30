@@ -23,6 +23,7 @@
         tools:targetApi="jelly_bean" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,60 +31,64 @@
         app:layout_constraintVertical_bias="0.426"
         tools:layout_editor_absoluteX="0dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/user_email"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/user_email_field"
+            style="@style/LoginTextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:drawableEnd="@drawable/ic_email"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:fontFamily="@font/poppinsmedium"
             android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:textSize="16sp"
+            android:textColorHint="#2196F3"
+            android:theme="@style/ThemeOverlay.AppTheme.TextInputEditText.Outlined"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:targetApi="jelly_bean" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/user_password"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/user_email"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawableEnd="@drawable/ic_email"
+                android:inputType="textEmailAddress"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/user_password_field"
+            style="@style/LoginTextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:drawableEnd="@drawable/ic_password"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
             android:fontFamily="@font/poppinsmedium"
             android:hint="@string/password"
-            android:inputType="textPassword"
-            android:textSize="16sp"
+            android:textColorHint="#2196F3"
+            android:theme="@style/ThemeOverlay.AppTheme.TextInputEditText.Outlined"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_email"
-            tools:targetApi="jelly_bean" />
+            app:layout_constraintTop_toBottomOf="@+id/user_email_field">
 
-        <Button
-            android:id="@+id/buttonLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="15dp"
-            android:backgroundTint="@color/colorAccent"
-            android:text="@string/login"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            app:layout_constraintEnd_toStartOf="@+id/buttonRegistration"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_password"
-            tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/user_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_password"
+                android:inputType="textPassword"
+                android:textSize="16sp"
+                tools:targetApi="jelly_bean" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/buttonRegistration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="17dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="100dp"
             android:backgroundTint="@color/colorAccent"
             android:text="@string/signup"
@@ -91,8 +96,24 @@
             android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/buttonLogin"
-            app:layout_constraintTop_toBottomOf="@+id/user_password"
+            app:layout_constraintTop_toBottomOf="@+id/user_password_field"
             tools:ignore="TextContrastCheck" />
+
+        <Button
+            android:id="@+id/buttonLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="17dp"
+            android:backgroundTint="@color/colorAccent"
+            android:text="@string/login"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toStartOf="@+id/buttonRegistration"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_password_field"
+            tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

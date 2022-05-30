@@ -53,6 +53,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
 
     boolean is = false;
     static int position;
+    static int positionDelete;
     Snackbar snackbar;
     //TODO: Переделать логику множественного одобрения/удаления
     @Override
@@ -61,7 +62,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
         switch (direction) {
             case ItemTouchHelper.LEFT:
                 adapter.onItemDismiss(position);
-                snackbar = Snackbar.make(view, "Предложение № " + position, Snackbar.LENGTH_LONG);
+                snackbar = Snackbar.make(view, "" + position, Snackbar.LENGTH_LONG);
                 snackbar.setAction("Отменить удаление", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -87,12 +88,8 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
                                     t.printStackTrace();
                                 }
                             });
-                        } else {
-                            if (!is) {
-                                adapter.onItemReturned(position);
-                            } else {
-                                is = false;
-                            }
+                        } else if (event == Snackbar.Callback.DISMISS_EVENT_CONSECUTIVE) {
+                            adapter.onItemReturned(position);
                         }
                         super.onDismissed(transientBottomBar, event);
                     }
@@ -101,7 +98,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
 
             case ItemTouchHelper.RIGHT:
                 adapter.onItemDismiss(position);
-                snackbar = Snackbar.make(view, "Предложение № " + position, Snackbar.LENGTH_LONG);
+                snackbar = Snackbar.make(view, "" + position, Snackbar.LENGTH_LONG);
                 snackbar.setAction("Отменить одобрение", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

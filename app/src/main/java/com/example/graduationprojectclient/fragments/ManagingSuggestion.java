@@ -32,7 +32,7 @@ import retrofit2.Response;
 public class ManagingSuggestion extends Fragment {
 
     List<Suggestion> suggestions;
-    Button button;
+    Button logOut;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,8 +40,8 @@ public class ManagingSuggestion extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_managing_suggestion, container, false);
 
-        button = view.findViewById(R.id.button_exit);
-        button.setOnClickListener(new View.OnClickListener() {
+        logOut = view.findViewById(R.id.button_exit);
+        logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Call<ResponseBody> call = CommunicationWithServerService.getApiService()

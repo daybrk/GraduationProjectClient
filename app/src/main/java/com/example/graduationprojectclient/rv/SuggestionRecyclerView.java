@@ -2,7 +2,6 @@ package com.example.graduationprojectclient.rv;
 
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,8 +111,8 @@ public class SuggestionRecyclerView extends RecyclerView.Adapter<SuggestionRecyc
             super(itemView);
             suggestionTheme = itemView.findViewById(R.id.suggestion_theme);
             suggestionShorText = itemView.findViewById(R.id.suggestion_short_text);
-            suggestionDate = itemView.findViewById(R.id.suggetion_date);
-            suggestionStatus = itemView.findViewById(R.id.suggetion_status);
+            suggestionDate = itemView.findViewById(R.id.suggestion_date);
+            suggestionStatus = itemView.findViewById(R.id.suggestion_status);
         }
     }
 }
