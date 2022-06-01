@@ -19,6 +19,8 @@ import com.example.graduationprojectclient.entity.Suggestion;
 import com.example.graduationprojectclient.fragments.ViewingAnSuggestion;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,11 +29,11 @@ public class SuggestionRecyclerView extends RecyclerView.Adapter<SuggestionRecyc
         implements ItemTouchHelperAdapter {
 
     private List<Suggestion> suggestions;
-    Map<Integer, Suggestion> deletedSuggestion ;
+    LinkedList<Suggestion> deletedSuggestion ;
 
     public SuggestionRecyclerView(List<Suggestion> suggestions) {
         this.suggestions = suggestions;
-        deletedSuggestion = new HashMap<>();
+        deletedSuggestion = new LinkedList<>();
     }
 
     @NonNull
@@ -87,20 +89,28 @@ public class SuggestionRecyclerView extends RecyclerView.Adapter<SuggestionRecyc
 
     @Override
     public void onItemDismiss(int position) {
-        deletedSuggestion.put(position, suggestions.get(position));
+        deletedSuggestion.add(suggestions.get(position));
         suggestions.remove(position);
         notifyItemRemoved(position);
     }
 
     @Override
     public void onItemReturned(int position) {
-        suggestions.add(position, deletedSuggestion.get(position));
-        notifyItemInserted(position);
+        if (position == 1) {
+            suggestions.add(deletedSuggestion.getFirst());
+            deletedSuggestion.remove(deletedSuggestion.getFirst());
+        } else if (position == 0) {
+            suggestions.add(deletedSuggestion.getLast());
+            deletedSuggestion.remove(deletedSuggestion.getLast());
+        } else if (position == 2) {
+            deletedSuggestion.remove(deletedSuggestion.getFirst());
+        }
+        notifyItemInserted(suggestions.size());
     }
 
     @Override
     public Suggestion findSuggestionByPosition(int position) {
-        return deletedSuggestion.get(position);
+        return deletedSuggestion.getLast();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
