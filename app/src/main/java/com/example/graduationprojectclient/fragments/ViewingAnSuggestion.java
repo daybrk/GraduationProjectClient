@@ -61,6 +61,7 @@ public class ViewingAnSuggestion extends Fragment {
             TextInputLayout suggestionHint = view.findViewById(R.id.tv_text_field);
             suggestionHint.setHint(R.string.suggestion_3);
             suggestionAccept.setVisibility(View.INVISIBLE);
+            suggestionCanceled.setClickable(false);
             switch (suggestionData.getSuggestionStatus().getStatus()) {
                 case "На рассмотрении":
                     int colorModeration = view.getResources().getColor(R.color.on_moderation);

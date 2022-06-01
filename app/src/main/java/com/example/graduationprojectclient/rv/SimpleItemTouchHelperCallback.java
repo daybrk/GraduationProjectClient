@@ -58,24 +58,17 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
         return false;
     }
 
-    static int count = 0;
-    int position = 0;
-    private List<Suggestion> suggestions;
     Snackbar snackbar;
-    //TODO: Переделать логику множественного одобрения/удаления
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-        count = position;
-        position = viewHolder.getAdapterPosition();
             switch (direction) {
                 case ItemTouchHelper.LEFT:
-                    adapter.onItemDismiss(position);
+                    adapter.onItemDismiss(viewHolder.getAdapterPosition());
                     snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG);
                     snackbar.setAction("Отменить удаление", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            position = 0;
-                            adapter.onItemReturned(position);
+                            adapter.onItemReturned(0);
                         }
                     }).show();
                     snackbar.addCallback(new Snackbar.Callback() {
@@ -83,13 +76,12 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
                         public void onDismissed(Snackbar transientBottomBar, int event) {
                             if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
                                 Call<ResponseBody> call = CommunicationWithServerService.getApiService()
-                                        .canceledSuggestion(adapter.findSuggestionByPosition(position).getSuggestionId(),
+                                        .canceledSuggestion(adapter.findSuggestionByPosition(viewHolder.getAdapterPosition()).getSuggestionId(),
                                                 LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
                                 call.enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                                        position = 2;
-                                        adapter.onItemReturned(position);
+                                        adapter.onItemReturned(2);
                                     }
 
                                     @Override
@@ -98,8 +90,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
                                     }
                                 });
                             } else if (event == Snackbar.Callback.DISMISS_EVENT_CONSECUTIVE) {
-                                position = 1;
-                                adapter.onItemReturned(position);
+                                adapter.onItemReturned(1);
                             }
                             super.onDismissed(transientBottomBar, event);
                         }
@@ -107,13 +98,12 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
                     break;
 
                 case ItemTouchHelper.RIGHT:
-                    adapter.onItemDismiss(position);
+                    adapter.onItemDismiss(viewHolder.getAdapterPosition());
                     snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG);
                     snackbar.setAction("Отменить одобрение", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            position = 0;
-                            adapter.onItemReturned(position);
+                            adapter.onItemReturned(0);
                         }
                     }).show();
                     snackbar.addCallback(new Snackbar.Callback() {
@@ -121,13 +111,12 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
                         public void onDismissed(Snackbar transientBottomBar, int event) {
                             if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
                                 Call<ResponseBody> call = CommunicationWithServerService.getApiService()
-                                        .confirmSuggestion(adapter.findSuggestionByPosition(position).getSuggestionId(),
+                                        .confirmSuggestion(adapter.findSuggestionByPosition(viewHolder.getAdapterPosition()).getSuggestionId(),
                                                 LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
                                 call.enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        position = 2;
-                                        adapter.onItemReturned(position);
+                                        adapter.onItemReturned(2);
                                     }
 
                                     @Override
@@ -136,8 +125,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
                                     }
                                 });
                             } else if (event == Snackbar.Callback.DISMISS_EVENT_CONSECUTIVE) {
-                                position = 1;
-                                adapter.onItemReturned(position);
+                                adapter.onItemReturned(1);
                             }
                             super.onDismissed(transientBottomBar, event);
                         }

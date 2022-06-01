@@ -40,10 +40,22 @@
         android:layout_marginEnd="16dp"
         android:background="?attr/selectableItemBackground"
         android:foreground="@drawable/ic_baseline_exit_to_app_24"
-        android:shadowColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         style="?android:attr/borderlessButtonStyle"
         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/button_refresh"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="46dp"
+        android:background="?attr/selectableItemBackground"
+        android:foreground="@drawable/ic_baseline_refresh_24"
+        app:layout_constraintEnd_toEndOf="@id/button_exit"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

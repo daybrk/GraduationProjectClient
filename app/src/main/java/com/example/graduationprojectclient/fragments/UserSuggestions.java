@@ -35,6 +35,7 @@ public class UserSuggestions extends Fragment {
 
     List<Suggestion> suggestions;
     Button button;
+    Button refresh;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +44,8 @@ public class UserSuggestions extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_suggestions, container, false);
 
         button = view.findViewById(R.id.button_exit);
+        refresh = view.findViewById(R.id.button_refresh);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,6 +64,15 @@ public class UserSuggestions extends Fragment {
 
                     }
                 });
+            }
+        });
+
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, new UserSuggestions(), null);
+                fragmentTransaction.commit();
             }
         });
 
@@ -96,11 +108,9 @@ public class UserSuggestions extends Fragment {
             }
         });
 
-        // This callback will only be called when MyFragment is at least Started.
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                //TODO: Подтверждение выхода, или что-нибудь другое
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);

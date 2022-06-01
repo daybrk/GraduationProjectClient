@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +34,8 @@ public class ManagingSuggestion extends Fragment {
 
     List<Suggestion> suggestions;
     Button logOut;
+    Button refresh;
+    RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +44,9 @@ public class ManagingSuggestion extends Fragment {
         View view = inflater.inflate(R.layout.fragment_managing_suggestion, container, false);
 
         logOut = view.findViewById(R.id.button_exit);
+        refresh = view.findViewById(R.id.button_refresh);
+        recyclerView = view.findViewById(R.id.recycler);
+
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,17 +68,23 @@ public class ManagingSuggestion extends Fragment {
             }
         });
 
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, new ManagingSuggestion(), null);
+                fragmentTransaction.commit();
+            }
+        });
+
         Call<List<Suggestion>> call = CommunicationWithServerService.getApiService()
                 .getUncheckedSuggestions(LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
         call.enqueue(new Callback<List<Suggestion>>() {
             @Override
-            public void onResponse(Call<List<Suggestion>> call, Response<List<Suggestion>> response) {
+            public void onResponse(@NonNull Call<List<Suggestion>> call, @NonNull Response<List<Suggestion>> response) {
                 if (response.isSuccessful()) {
-
                     suggestions = response.body();
-
                     SuggestionRecyclerView adapter = new SuggestionRecyclerView(suggestions);
-                    RecyclerView recyclerView = view.findViewById(R.id.recycler);
                     recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
                     recyclerView.setAdapter(adapter);
 
@@ -86,7 +98,7 @@ public class ManagingSuggestion extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Suggestion>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Suggestion>> call, @NonNull Throwable t) {
                 t.printStackTrace();
             }
         });
@@ -94,7 +106,6 @@ public class ManagingSuggestion extends Fragment {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                //TODO: Подтверждение выхода, или что-нибудь другое
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);

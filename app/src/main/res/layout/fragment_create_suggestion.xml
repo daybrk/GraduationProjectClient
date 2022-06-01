@@ -13,7 +13,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        style="@style/LoginTextInputLayoutStyle"
+        style="@style/TextInputLayoutStyle"
         android:theme="@style/ThemeOverlay.AppTheme.TextInputEditText.Outlined"
         android:hint="@string/suggestion_theme"
         android:textColorHint="#2196F3"
@@ -34,11 +34,12 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/suggestion_create_button"
+        app:layout_constraintBottom_toTopOf="@+id/tv_char_count"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/suggestion_theme_create_field">
@@ -46,17 +47,20 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tv_text_input_layout"
+                style="@style/TextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                style="@style/LoginTextInputLayoutStyle"
-                android:theme="@style/ThemeOverlay.AppTheme.TextInputEditText.Outlined"
                 android:hint="@string/suggestion"
                 android:textColorHint="#2196F3"
+                android:theme="@style/ThemeOverlay.AppTheme.TextInputEditText.Outlined"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@style/error_appearance"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -66,6 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
+                    android:maxLength="2040"
                     android:minHeight="48dp"
                     android:singleLine="true"
                     android:textAllCaps="false"
@@ -78,8 +83,8 @@
         android:id="@+id/suggestion_create_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:backgroundTint="@color/colorAccent"
         android:text="@string/create_suggestion"
         android:textAllCaps="false"
@@ -87,4 +92,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/tv_char_count"
+        android:layout_width="wrap_content"
+        android:layout_height="17dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/suggestion_create_button"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

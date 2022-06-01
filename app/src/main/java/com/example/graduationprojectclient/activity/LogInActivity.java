@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.graduationprojectclient.AppDataBase;
 import com.example.graduationprojectclient.utilities.CheckOrientation;
@@ -35,6 +37,7 @@ public class LogInActivity extends AppCompatActivity {
     private String token;
     private AppDataBase db;
     private static LogInActivity instance;
+    Context context;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -56,64 +59,72 @@ public class LogInActivity extends AppCompatActivity {
         ed_email = findViewById(R.id.user_email);
         ed_password = findViewById(R.id.user_password);
 
-        Context context = getApplicationContext();
+        context = getApplicationContext();
         context.startService(new Intent(LogInActivity.this, CommunicationWithServerService.class));
 
-        if (db.loginDao().getLogin() == null) {
-            but_registration.setOnClickListener(view -> {
-                Intent intent = new Intent(view.getContext(), RegistrationActivity.class);
-                startActivity(intent);
-            });
+        Runnable runnable1 = () -> {
+            try {
+                if (db.loginDao().getLogin() != null) {
+                    String email = db.loginDao().getLogin().getEmail();
+                    String password = db.loginDao().getLogin().getPassword();
+                    String token = db.loginDao().getLogin().getToken();
 
-            FirebaseMessaging.getInstance().getToken()
-                    .addOnCompleteListener(task -> {
-                        token = task.getResult();
-                    });
+                    while (CommunicationWithServerService.getApiService() == null) {
+                    }
 
-            but_logIn.setClickable(true);
-            but_logIn.setOnClickListener(view -> {
-
-                String email = String.valueOf(ed_email.getText());
-                String password = String.valueOf(ed_password.getText());
-
-                Call<AuthResponse> call = CommunicationWithServerService.getApiService().logIn(email, password, token);
-                call.enqueue(new Callback<AuthResponse>() {
-
-                    @Override
-                    public void onResponse(@NonNull Call<AuthResponse> call, @NonNull Response<AuthResponse> response) {
-                        if (response.isSuccessful()) {
-                            but_logIn.setClickable(false);
-
-                            AuthResponse authResponse = response.body();
-                            assert authResponse != null;
-                            String role = authResponse.getRole();
-                            db.loginDao().insert(new Login(email, password, role, token));
-
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        } else {
-                            try {
-                                System.out.println(Objects.requireNonNull(response.errorBody()).string());
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                    Call<AuthResponse> call = CommunicationWithServerService.getApiService().logIn(email, password, token);
+                    call.enqueue(new Callback<AuthResponse>() {
+                        @Override
+                        public void onResponse(@NonNull Call<AuthResponse> call, @NonNull Response<AuthResponse> response) {
+                            if (response.isSuccessful()) {
+                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            } else {
+                                try {
+                                    System.out.println(Objects.requireNonNull(response.errorBody()).string());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(@NonNull Call<AuthResponse> call, @NonNull Throwable t) {
-                        t.printStackTrace();
-                    }
+                        @Override
+                        public void onFailure(@NonNull Call<AuthResponse> call, @NonNull Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                Log.e("runnable1", e.getMessage());
+            }
+        };
+        Thread thread1 = new Thread(runnable1);
+        thread1.start();
+
+        but_registration.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), RegistrationActivity.class);
+            startActivity(intent);
+        });
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    token = task.getResult();
                 });
 
-            });
-        } else {
-            Call<AuthResponse> call = CommunicationWithServerService.getApiService().logIn(db.loginDao().getLogin().getEmail(),
-                    db.loginDao().getLogin().getPassword(),  db.loginDao().getLogin().getToken());
+        but_logIn.setOnClickListener(view -> {
+
+            String email = String.valueOf(ed_email.getText());
+            String password = String.valueOf(ed_password.getText());
+
+            Call<AuthResponse> call = CommunicationWithServerService.getApiService().logIn(email, password, token);
             call.enqueue(new Callback<AuthResponse>() {
 
                 @Override
                 public void onResponse(@NonNull Call<AuthResponse> call, @NonNull Response<AuthResponse> response) {
                     if (response.isSuccessful()) {
+                        AuthResponse authResponse = response.body();
+                        assert authResponse != null;
+                        String role = authResponse.getRole();
+                        db.loginDao().insert(new Login(email, password, role, token));
 
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     } else {
@@ -130,7 +141,8 @@ public class LogInActivity extends AppCompatActivity {
                     t.printStackTrace();
                 }
             });
-        }
+
+        });
     }
 
     public AppDataBase getDb() {
