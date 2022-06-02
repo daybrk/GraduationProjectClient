@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -18,26 +17,18 @@ import com.example.graduationprojectclient.MainActivity;
 import com.example.graduationprojectclient.R;
 import com.google.firebase.messaging.RemoteMessage;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
-
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        //TODO: Выкидывает если уведомление приходит, когда юзер не залогинелся
-
-        String[] inspectorEmail = remoteMessage.getNotification().getTitle().split("-");
-        sendNotification(remoteMessage.getNotification().getBody(), inspectorEmail);
-
+        sendNotification(remoteMessage.getNotification());
     }
 
 
 
-    private void sendNotification(String messageBody, String[] inspectorEmail) {
+    private void sendNotification(RemoteMessage.Notification messageBody) {
 
         Intent intent = new Intent(this, MainActivity.class);
         @SuppressLint("UnspecifiedImmutableFlag")
@@ -48,8 +39,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
                         .setSmallIcon(R.drawable.ic_baseline_delete_sweep_24)
-                        .setContentText(messageBody)
-                        .setContentTitle(inspectorEmail[0])
+                        .setContentText(messageBody.getBody())
+                        .setContentTitle(messageBody.getTitle())
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
                         .setContentIntent(pendingIntent);

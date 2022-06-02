@@ -5,7 +5,6 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
@@ -14,16 +13,12 @@ import com.example.graduationprojectclient.activity.LogInActivity;
 import com.example.graduationprojectclient.fragments.ManagingSuggestion;
 import com.example.graduationprojectclient.fragments.UserSuggestions;
 import com.example.graduationprojectclient.utilities.CheckOrientation;
-import com.example.graduationprojectclient.vm.MainViewModel;
-
-import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private static FragmentManager fm;
 
-    MainViewModel viewModel;
     private static MainActivity instance;
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -48,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.replace(R.id.fragment_container, new ManagingSuggestion(), null);
         }
         fragmentTransaction.commit();
-
-        viewModel =  ViewModelProviders.of(this).get(MainViewModel.class);
     }
 
     public static FragmentManager getFm() {

@@ -1,11 +1,5 @@
 package com.example.graduationprojectclient.entity;
 
-import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.sql.Struct;
 
 public class Suggestion {
 

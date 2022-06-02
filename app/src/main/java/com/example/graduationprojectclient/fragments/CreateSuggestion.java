@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,14 +45,7 @@ public class CreateSuggestion extends Fragment {
     EditText suggestionText;
     TextView charCount;
     TextInputLayout textInputLayout;
-    String restoreSuggestionTheme;
-    String restoreSuggestionText;
     View view;
-
-    public CreateSuggestion(String suggestionTheme, String suggestionText) {
-        this.restoreSuggestionTheme = suggestionTheme;
-        this.restoreSuggestionText = suggestionText;
-    }
 
     public CreateSuggestion() {
     }
@@ -71,43 +63,39 @@ public class CreateSuggestion extends Fragment {
         createSuggestion = view.findViewById(R.id.suggestion_create_button);
 
         suggestionText.addTextChangedListener(mTextEditorWatcher);
-        createSuggestion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        createSuggestion.setOnClickListener(view -> {
 
-                Date currentTime = Calendar.getInstance().getTime();
-                SimpleDateFormat df =
-                        new SimpleDateFormat
-                                ("dd-MMM-yyyy", Locale.getDefault());
-                String formattedDate = df.format(currentTime);
+            Date currentTime = Calendar.getInstance().getTime();
+            SimpleDateFormat df =
+                    new SimpleDateFormat
+                            ("dd-MMM-yyyy", Locale.getDefault());
+            String formattedDate = df.format(currentTime);
 
-                Suggestion suggestion =
-                        new Suggestion
-                                (suggestionTheme.getText().toString(), suggestionText.getText().toString(),
-                                formattedDate,new Status(0L), new User(LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail()));
+            Suggestion suggestion =
+                    new Suggestion
+                            (suggestionTheme.getText().toString(), suggestionText.getText().toString(),
+                            formattedDate,new Status(0L), new User(LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail()));
 
-                Call<ResponseBody> call2 = CommunicationWithServerService.getApiService().createSuggestion(suggestion);
-                call2.enqueue(new Callback<ResponseBody>() {
+            Call<ResponseBody> call2 = CommunicationWithServerService.getApiService().createSuggestion(suggestion);
+            call2.enqueue(new Callback<ResponseBody>() {
 
-                    @Override
-                    public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
-                            fragmentTransaction.replace(R.id.fragment_container, new UserSuggestions(), null);
-                            fragmentTransaction.commit();
-                        } else {
-                            System.out.println(response.errorBody());
-                        }
+                @Override
+                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
+                        fragmentTransaction.replace(R.id.fragment_container, new UserSuggestions(), null);
+                        fragmentTransaction.commit();
+                    } else {
+                        System.out.println(response.errorBody());
                     }
-                    @Override
-                    public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                }
+                @Override
+                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
 
-                    }
-                });
-            }
+                }
+            });
         });
 
-        // This callback will only be called when MyFragment is at least Started.
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {

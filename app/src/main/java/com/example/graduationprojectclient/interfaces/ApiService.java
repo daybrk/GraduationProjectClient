@@ -1,6 +1,6 @@
 package com.example.graduationprojectclient.interfaces;
 
-import com.example.graduationprojectclient.entity.AuthResponse;
+import com.example.graduationprojectclient.entity.AuthRegResponse;
 import com.example.graduationprojectclient.entity.Suggestion;
 import com.example.graduationprojectclient.entity.User;
 
@@ -21,12 +21,12 @@ public interface ApiService {
 
     @POST("/login/{email}/{password}/{token}")
     @Headers("Content-type: application/json")
-    Call<AuthResponse> logIn(@Path("email") String email,
-                             @Path("password") String password,
-                             @Path("token") String token);
+    Call<AuthRegResponse> logIn(@Path("email") String email,
+                                @Path("password") String password,
+                                @Path("token") String token);
 
     @POST("/registration")
-    Call<ResponseBody> createUser(@Body User user);
+    Call<AuthRegResponse> createUser(@Body User user);
 
     @POST("/logout/{email}")
     Call<ResponseBody> logout(@Path("email") String email);

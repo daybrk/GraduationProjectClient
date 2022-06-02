@@ -3,29 +3,29 @@ package com.example.graduationprojectclient.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.graduationprojectclient.entity.AuthRegResponse;
 import com.example.graduationprojectclient.utilities.CheckOrientation;
 import com.example.graduationprojectclient.service.CommunicationWithServerService;
 import com.example.graduationprojectclient.R;
 import com.example.graduationprojectclient.entity.User;
-import com.example.graduationprojectclient.utilities.RegistrationValidator;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class RegistrationActivity extends AppCompatActivity implements TextWatcher{
+public class RegistrationActivity extends AppCompatActivity {
 
     TextInputEditText
             registrationName,
@@ -33,9 +33,13 @@ public class RegistrationActivity extends AppCompatActivity implements TextWatch
             registrationLastName,
             registrationEmail,
             registrationPassword;
-
+    TextInputLayout
+            registrationNameField,
+            registrationSecondNameField,
+            registrationLastNameField,
+            registrationEmailFiled,
+            registrationPasswordField;
     Button buttonSignUp;
-
     static Context context;
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -58,13 +62,19 @@ public class RegistrationActivity extends AppCompatActivity implements TextWatch
         registrationEmail = findViewById(R.id.registration_email);
         registrationPassword = findViewById(R.id.registration_password);
 
+        registrationNameField = findViewById(R.id.registration_name_field);
+        registrationSecondNameField = findViewById(R.id.registration_second_name_field);
+        registrationLastNameField = findViewById(R.id.registration_last_name_field);
+        registrationEmailFiled = findViewById(R.id.registration_email_field);
+        registrationPasswordField = findViewById(R.id.registration_password_field);
+
         buttonSignUp = findViewById(R.id.button_sign_up);
 
-        registrationName.addTextChangedListener(this);
-        registrationSecondName.addTextChangedListener(this);
-        registrationLastName.addTextChangedListener(this);
-        registrationEmail.addTextChangedListener(this);
-        registrationPassword.addTextChangedListener(this);
+        registrationName.addTextChangedListener(mTextEditorWatcher);
+        registrationSecondName.addTextChangedListener(mTextEditorWatcher);
+        registrationLastName.addTextChangedListener(mTextEditorWatcher);
+        registrationEmail.addTextChangedListener(mTextEditorWatcher);
+        registrationPassword.addTextChangedListener(mTextEditorWatcher);
 
         buttonSignUp.setOnClickListener(view -> {
             String email = String.valueOf(registrationEmail.getText());
@@ -73,82 +83,91 @@ public class RegistrationActivity extends AppCompatActivity implements TextWatch
             String lastName = String.valueOf(registrationLastName.getText());
             String password = String.valueOf(registrationPassword.getText());
 
-            if (RegistrationValidator.Validator(email, name, secondName, password)) {
-                User user;
-                if (!lastName.equals("")) {
-                     user = new User(email, name, secondName, lastName, password);
-                } else {
-                     user = new User(email, name, secondName, password);
+            if (!email.equals("") & !name.equals("") & !secondName.equals("") & !password.equals("")) {
+                if (!registrationPasswordField.isErrorEnabled() && !registrationNameField.isErrorEnabled()
+                        && !registrationSecondNameField.isErrorEnabled() && !registrationEmailFiled.isErrorEnabled()) {
+
+                    User user;
+                    if (!lastName.equals("")) {
+                        user = new User(email, name, secondName, lastName, password);
+                    } else {
+                        user = new User(email, name, secondName, password);
+                    }
+
+                    Call<AuthRegResponse> call = CommunicationWithServerService.getApiService().createUser(user);
+                    call.enqueue(new Callback<AuthRegResponse>() {
+
+                        @Override
+                        public void onResponse(@NonNull Call<AuthRegResponse> call, @NonNull Response<AuthRegResponse> response) {
+                            AuthRegResponse authRegResponse = response.body();
+                            assert authRegResponse != null;
+                            if (authRegResponse.getErrorMessage().equals("")) {
+                                finish();
+                            } else {
+                                Toast toast = Toast.makeText(context, authRegResponse.getErrorMessage(), Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<AuthRegResponse> call, @NonNull Throwable t) {
+                        }
+                    });
                 }
-                Call<ResponseBody> call = CommunicationWithServerService.getApiService().createUser(user);
-                call.enqueue(new Callback<ResponseBody>() {
-
-                     @Override
-                     public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                         if (response.isSuccessful()) {
-                             System.out.println(response.body() + " TUTTAA");
-                             finish();
-                         } else {
-                             System.out.println(response.errorBody());
-                         }
-                     }
-                     @Override
-                     public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-
-                     }
-                 });
+            } else {
+                Toast toast = Toast.makeText(context, "Поля, не должны быть пустыми", Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
     }
-
-
 
     public static Context getContext() {
         return context;
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    private final TextWatcher mTextEditorWatcher = new TextWatcher() {
 
-    }
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
-    @Override
-    public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (registrationName.length() == 0) {
+                registrationNameField.setError("Поле не может быть пустым");
+            } if (registrationSecondName.length() == 0) {
+                registrationSecondNameField.setError("Поле не может быть пустым");
+            } if (registrationLastName.length() == 0) {
+                registrationLastNameField.setError("Поле не может быть пустым");
+            } if (registrationEmail.length() == 0) {
+                registrationEmailFiled.setError("Поле не может быть пустым");
+            } if (registrationPassword.length() < 6) {
+                registrationPasswordField.setError("Пароль должен иметь больше шести символов");
+            }
 
-        if (registrationName.length() > start) {
-            editTextValidator(registrationName);
+            if (registrationName.length() != 0) {
+                registrationNameField.setError("");
+                registrationNameField.setErrorEnabled(false);
+            }
+            if (registrationSecondName.length() != 0) {
+                registrationSecondNameField.setError("");
+                registrationSecondNameField.setErrorEnabled(false);
+            }
+            if (registrationLastName.length() != 0) {
+                registrationLastNameField.setError("");
+                registrationLastNameField.setErrorEnabled(false);
+            }
+            if (registrationEmail.length() != 0) {
+                registrationEmailFiled.setError("");
+                registrationEmailFiled.setErrorEnabled(false);
+            }
+            if (registrationPassword.length() > 6) {
+                registrationPasswordField.setError("");
+                registrationPasswordField.setErrorEnabled(false);
+            }
         }
-        if (registrationSecondName.length() > start) {
-            editTextValidator(registrationSecondName);
-        }
-        if (registrationLastName.length() > start) {
-            editTextValidator(registrationLastName);
-        }
-        if (registrationEmail.length() > start) {
-            editTextValidator(registrationEmail);
-        }
-        if (registrationPassword.length() > start) {
-            editTextValidator(registrationPassword);
-        }
-    }
 
-    @Override
-    public void afterTextChanged(Editable editable) {
-    }
-
-    public void editTextValidator(TextInputEditText editText) {
-        if (editText.length() <= 1) {
-            editText
-                    .getBackground()
-                    .setColorFilter(getResources()
-                                    .getColor(R.color.design_default_color_error),
-                            PorterDuff.Mode.SRC_IN);
-        } else if (editText.length() >= 1) {
-            editText
-                    .getBackground()
-                    .setColorFilter(getResources()
-                                    .getColor(R.color.colorAccent),
-                            PorterDuff.Mode.SRC_IN);
+        @Override
+        public void afterTextChanged(Editable s) {
         }
-    }
+    };
+
 }

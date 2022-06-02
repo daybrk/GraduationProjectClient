@@ -1,18 +1,18 @@
 package com.example.graduationprojectclient.entity;
 
-public class AuthResponse {
+public class AuthRegResponse {
 
     private String role;
     private String hash;
     private String errorMessage;
 
-    public AuthResponse(String role, String hash, String errorMessage) {
+    public AuthRegResponse(String role, String hash, String errorMessage) {
         this.role = role;
         this.hash = hash;
         this.errorMessage = errorMessage;
     }
 
-    public AuthResponse(String role, String hash) {
+    public AuthRegResponse(String role, String hash) {
         this.role = role;
         this.hash = hash;
     }

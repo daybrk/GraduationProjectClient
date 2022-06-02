@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,34 +45,28 @@ public class UserSuggestions extends Fragment {
         button = view.findViewById(R.id.button_exit);
         refresh = view.findViewById(R.id.button_refresh);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Call<ResponseBody> call = CommunicationWithServerService.getApiService()
-                        .logout(LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
-                call.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                        LogInActivity.getInstance().getDb().loginDao()
-                                .delete(LogInActivity.getInstance().getDb().loginDao().getLogin());
-                        MainActivity.getInstance().logout();
-                    }
+        button.setOnClickListener(v -> {
+            Call<ResponseBody> call = CommunicationWithServerService.getApiService()
+                    .logout(LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                    LogInActivity.getInstance().getDb().loginDao()
+                            .delete(LogInActivity.getInstance().getDb().loginDao().getLogin());
+                    MainActivity.getInstance().logout();
+                }
 
-                    @Override
-                    public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                @Override
+                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
 
-                    }
-                });
-            }
+                }
+            });
         });
 
-        refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new UserSuggestions(), null);
-                fragmentTransaction.commit();
-            }
+        refresh.setOnClickListener(v -> {
+            FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, new UserSuggestions(), null);
+            fragmentTransaction.commit();
         });
 
         Call<List<Suggestion>> call = CommunicationWithServerService.getApiService()
@@ -99,13 +92,10 @@ public class UserSuggestions extends Fragment {
         });
 
         FloatingActionButton fab = view.findViewById(R.id.add_new_suggestion);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new CreateSuggestion(), null);
-                fragmentTransaction.commit();
-            }
+        fab.setOnClickListener(view1 -> {
+            FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, new CreateSuggestion(), null);
+            fragmentTransaction.commit();
         });
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {

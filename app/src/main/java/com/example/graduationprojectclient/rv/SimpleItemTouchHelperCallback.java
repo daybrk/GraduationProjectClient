@@ -8,16 +8,11 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.graduationprojectclient.activity.LogInActivity;
-import com.example.graduationprojectclient.entity.Suggestion;
-import com.example.graduationprojectclient.service.CommunicationWithServerService;
 import com.example.graduationprojectclient.R;
+import com.example.graduationprojectclient.activity.LogInActivity;
 import com.example.graduationprojectclient.interfaces.ItemTouchHelperAdapter;
+import com.example.graduationprojectclient.service.CommunicationWithServerService;
 import com.google.android.material.snackbar.Snackbar;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 import okhttp3.ResponseBody;
@@ -49,9 +44,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
                 .create()
                 .decorate();
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-
     }
-
 
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -65,12 +58,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
                 case ItemTouchHelper.LEFT:
                     adapter.onItemDismiss(viewHolder.getAdapterPosition());
                     snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG);
-                    snackbar.setAction("Отменить удаление", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            adapter.onItemReturned(0);
-                        }
-                    }).show();
+                    snackbar.setAction("Отменить отказ", view -> adapter.onItemReturned(0)).show();
                     snackbar.addCallback(new Snackbar.Callback() {
                         @Override
                         public void onDismissed(Snackbar transientBottomBar, int event) {
@@ -100,12 +88,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
                 case ItemTouchHelper.RIGHT:
                     adapter.onItemDismiss(viewHolder.getAdapterPosition());
                     snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG);
-                    snackbar.setAction("Отменить одобрение", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            adapter.onItemReturned(0);
-                        }
-                    }).show();
+                    snackbar.setAction("Отменить одобрение", view -> adapter.onItemReturned(0)).show();
                     snackbar.addCallback(new Snackbar.Callback() {
                         @Override
                         public void onDismissed(Snackbar transientBottomBar, int event) {
@@ -115,12 +98,12 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
                                                 LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
                                 call.enqueue(new Callback<ResponseBody>() {
                                     @Override
-                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                                         adapter.onItemReturned(2);
                                     }
 
                                     @Override
-                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                                         t.printStackTrace();
                                     }
                                 });

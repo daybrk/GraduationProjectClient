@@ -40,41 +40,34 @@ public class ManagingSuggestion extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_managing_suggestion, container, false);
 
         logOut = view.findViewById(R.id.button_exit);
         refresh = view.findViewById(R.id.button_refresh);
         recyclerView = view.findViewById(R.id.recycler);
 
-        logOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Call<ResponseBody> call = CommunicationWithServerService.getApiService()
-                        .logout(LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
-                call.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                        LogInActivity.getInstance().getDb().loginDao()
-                                .delete(LogInActivity.getInstance().getDb().loginDao().getLogin());
-                        MainActivity.getInstance().logout();
-                    }
+        logOut.setOnClickListener(v -> {
+            Call<ResponseBody> call = CommunicationWithServerService.getApiService()
+                    .logout(LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                    LogInActivity.getInstance().getDb().loginDao()
+                            .delete(LogInActivity.getInstance().getDb().loginDao().getLogin());
+                    MainActivity.getInstance().logout();
+                }
 
-                    @Override
-                    public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                @Override
+                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
 
-                    }
-                });
-            }
+                }
+            });
         });
 
-        refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new ManagingSuggestion(), null);
-                fragmentTransaction.commit();
-            }
+        refresh.setOnClickListener(v -> {
+            FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, new ManagingSuggestion(), null);
+            fragmentTransaction.commit();
         });
 
         Call<List<Suggestion>> call = CommunicationWithServerService.getApiService()
@@ -87,7 +80,7 @@ public class ManagingSuggestion extends Fragment {
                     SuggestionRecyclerView adapter = new SuggestionRecyclerView(suggestions);
                     recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
                     recyclerView.setAdapter(adapter);
-
+                    
                     SimpleItemTouchHelperCallback callback =
                             new SimpleItemTouchHelperCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, adapter, view);
                     ItemTouchHelper touchHelper = new ItemTouchHelper(callback);

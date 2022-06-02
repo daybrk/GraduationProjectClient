@@ -11,18 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.graduationprojectclient.activity.LogInActivity;
-import com.example.graduationprojectclient.interfaces.ItemTouchHelperAdapter;
 import com.example.graduationprojectclient.MainActivity;
 import com.example.graduationprojectclient.R;
+import com.example.graduationprojectclient.activity.LogInActivity;
 import com.example.graduationprojectclient.entity.Suggestion;
 import com.example.graduationprojectclient.fragments.ViewingAnSuggestion;
+import com.example.graduationprojectclient.interfaces.ItemTouchHelperAdapter;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 
 public class SuggestionRecyclerView extends RecyclerView.Adapter<SuggestionRecyclerView.ViewHolder>
@@ -72,13 +69,10 @@ public class SuggestionRecyclerView extends RecyclerView.Adapter<SuggestionRecyc
                 holder.suggestionStatus.setTextColor(colorCanceled);
                 break;
         }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new ViewingAnSuggestion(suggestions.get(position)), null);
-                fragmentTransaction.commit();
-            }
+        holder.itemView.setOnClickListener(v -> {
+            FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, new ViewingAnSuggestion(suggestions.get(position)), null);
+            fragmentTransaction.commit();
         });
     }
 

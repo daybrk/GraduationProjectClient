@@ -26,16 +26,14 @@ public class CommunicationWithServerService extends Service {
 
     private static ApiService apiService;
     private static Retrofit retrofit;
-        public static final String BASE_URL = "http://192.168.0.101:8081";
-//    public static final String BASE_URL = "http://192.168.20.162:8081";
-    private static String AUTH_KEY = "";
+//        public static final String BASE_URL = "http://192.168.0.101:8081";
+    public static final String BASE_URL = "http://192.168.20.162:8081";
 
     public CommunicationWithServerService() {
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
@@ -74,22 +72,8 @@ public class CommunicationWithServerService extends Service {
         super.onDestroy();
     }
 
-
     public static ApiService getApiService() {
         return apiService;
     }
-
-    public static Retrofit getRetrofit() {
-        return retrofit;
-    }
-
-    public static String getAuthKey() {
-        return AUTH_KEY;
-    }
-
-    public static void setAuthKey(String authKey) {
-        AUTH_KEY = authKey;
-    }
-
 
 }
