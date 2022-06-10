@@ -47,8 +47,7 @@ public class CreateSuggestion extends Fragment {
     TextInputLayout textInputLayout;
     View view;
 
-    public CreateSuggestion() {
-    }
+    public CreateSuggestion() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

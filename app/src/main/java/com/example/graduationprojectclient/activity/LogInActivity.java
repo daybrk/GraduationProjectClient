@@ -37,7 +37,7 @@ public class LogInActivity extends AppCompatActivity {
     private String token;
     private AppDataBase db;
     private static LogInActivity instance;
-    Context context;
+    private Context context;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override

@@ -18,7 +18,6 @@ import com.example.graduationprojectclient.utilities.CheckOrientation;
 public class MainActivity extends AppCompatActivity {
 
     private static FragmentManager fm;
-
     private static MainActivity instance;
 
     @SuppressLint("SourceLockedOrientationActivity")

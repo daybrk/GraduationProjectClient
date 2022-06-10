@@ -47,21 +47,7 @@ public class ManagingSuggestion extends Fragment {
         recyclerView = view.findViewById(R.id.recycler);
 
         logOut.setOnClickListener(v -> {
-            Call<ResponseBody> call = CommunicationWithServerService.getApiService()
-                    .logout(LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                    LogInActivity.getInstance().getDb().loginDao()
-                            .delete(LogInActivity.getInstance().getDb().loginDao().getLogin());
-                    MainActivity.getInstance().logout();
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-
-                }
-            });
+           logOut();
         });
 
         refresh.setOnClickListener(v -> {
@@ -70,6 +56,37 @@ public class ManagingSuggestion extends Fragment {
             fragmentTransaction.commit();
         });
 
+        getUncheckedSuggestion(view);
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+
+        return view;
+    }
+
+    private void logOut() {
+        Call<ResponseBody> call = CommunicationWithServerService.getApiService()
+                .logout(LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                LogInActivity.getInstance().getDb().loginDao()
+                        .delete(LogInActivity.getInstance().getDb().loginDao().getLogin());
+                MainActivity.getInstance().logout();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+
+            }
+        });
+    }
+
+    private void getUncheckedSuggestion(View view) {
         Call<List<Suggestion>> call = CommunicationWithServerService.getApiService()
                 .getUncheckedSuggestions(LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
         call.enqueue(new Callback<List<Suggestion>>() {
@@ -80,7 +97,7 @@ public class ManagingSuggestion extends Fragment {
                     SuggestionRecyclerView adapter = new SuggestionRecyclerView(suggestions);
                     recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
                     recyclerView.setAdapter(adapter);
-                    
+
                     SimpleItemTouchHelperCallback callback =
                             new SimpleItemTouchHelperCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, adapter, view);
                     ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
@@ -95,14 +112,5 @@ public class ManagingSuggestion extends Fragment {
                 t.printStackTrace();
             }
         });
-
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-            }
-        };
-        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
-
-        return view;
     }
 }

@@ -43,7 +43,7 @@ public class ViewingAnSuggestion extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_viewing_an_sugg, container, false);
 
-        TextView suggestionTheme = view.findViewById(R.id.tv_theme);
+        EditText suggestionTheme = view.findViewById(R.id.tv_theme);
         EditText suggestion = view.findViewById(R.id.tv_text);
         TextView suggestionDate = view.findViewById(R.id.tv_suggestion_date);
         TextView suggestionAuthor = view.findViewById(R.id.tv_suggestion_author);
@@ -84,68 +84,12 @@ public class ViewingAnSuggestion extends Fragment {
         }
 
         suggestionAccept.setOnClickListener(v -> {
-            snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG);
-            snackbar.setAction("Отменить одобрение", view1 -> {
-            }).show();
-            snackbar.addCallback(new Snackbar.Callback() {
-                @Override
-                public void onDismissed(Snackbar transientBottomBar, int event) {
-                    if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
-                        Call<ResponseBody> call = CommunicationWithServerService.getApiService()
-                                .confirmSuggestion(suggestionData.getSuggestionId(),
-                                        LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
-                        call.enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                                Toast toast = Toast.makeText(v.getContext(), "Предложение было принято!", Toast.LENGTH_SHORT);
-                                toast.show();
-
-                                FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
-                                fragmentTransaction.replace(R.id.fragment_container, new ManagingSuggestion(), null);
-                                fragmentTransaction.commit();
-                            }
-
-                            @Override
-                            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                                t.printStackTrace();
-                            }
-                        });
-                    }
-                }
-            });
+            confirmSuggestion(view, v);
         });
 
 
         suggestionCanceled.setOnClickListener(v -> {
-            snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG);
-            snackbar.setAction("Вернуть предложение", view1 -> {
-            }).show();
-            snackbar.addCallback(new Snackbar.Callback() {
-                @Override
-                public void onDismissed(Snackbar transientBottomBar, int event) {
-                    if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
-                        Call<ResponseBody> call = CommunicationWithServerService.getApiService()
-                                .canceledSuggestion(suggestionData.getSuggestionId(),
-                                        LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
-                        call.enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                                Toast toast = Toast.makeText(v.getContext(), "Предложение было отклонено!", Toast.LENGTH_SHORT);
-                                toast.show();
-
-                                FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
-                                fragmentTransaction.replace(R.id.fragment_container, new ManagingSuggestion(), null);
-                                fragmentTransaction.commit();
-                            }
-
-                            @Override
-                            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                                t.printStackTrace();
-                            }
-                        });
-                    }
-                }
-            });
+            canceledSuggestion(view, v);
         });
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
@@ -163,6 +107,70 @@ public class ViewingAnSuggestion extends Fragment {
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
 
         return view;
+    }
+
+    private void canceledSuggestion(View view, View v) {
+        snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG);
+        snackbar.setAction("Вернуть предложение", view1 -> {
+        }).show();
+        snackbar.addCallback(new Snackbar.Callback() {
+            @Override
+            public void onDismissed(Snackbar transientBottomBar, int event) {
+                if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                    Call<ResponseBody> call = CommunicationWithServerService.getApiService()
+                            .canceledSuggestion(suggestionData.getSuggestionId(),
+                                    LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                            Toast toast = Toast.makeText(v.getContext(), "Предложение было отклонено!", Toast.LENGTH_SHORT);
+                            toast.show();
+
+                            FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
+                            fragmentTransaction.replace(R.id.fragment_container, new ManagingSuggestion(), null);
+                            fragmentTransaction.commit();
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    private void confirmSuggestion(View view, View v) {
+        snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG);
+        snackbar.setAction("Отменить одобрение", view1 -> {
+        }).show();
+        snackbar.addCallback(new Snackbar.Callback() {
+            @Override
+            public void onDismissed(Snackbar transientBottomBar, int event) {
+                if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                    Call<ResponseBody> call = CommunicationWithServerService.getApiService()
+                            .confirmSuggestion(suggestionData.getSuggestionId(),
+                                    LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                            Toast toast = Toast.makeText(v.getContext(), "Предложение было принято!", Toast.LENGTH_SHORT);
+                            toast.show();
+
+                            FragmentTransaction fragmentTransaction = MainActivity.getFm().beginTransaction();
+                            fragmentTransaction.replace(R.id.fragment_container, new ManagingSuggestion(), null);
+                            fragmentTransaction.commit();
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+                }
+            }
+        });
     }
 
 

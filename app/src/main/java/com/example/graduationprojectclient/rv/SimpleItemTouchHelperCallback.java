@@ -24,6 +24,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
 
     private final ItemTouchHelperAdapter adapter;
     private final View view;
+    Snackbar snackbar;
 
 
     public SimpleItemTouchHelperCallback(int dragDirs, int swipeDirs, ItemTouchHelperAdapter adapter, View view) {
@@ -51,71 +52,78 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.SimpleCallbac
         return false;
     }
 
-    Snackbar snackbar;
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             switch (direction) {
                 case ItemTouchHelper.LEFT:
-                    adapter.onItemDismiss(viewHolder.getAdapterPosition());
-                    snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG);
-                    snackbar.setAction("Отменить отказ", view -> adapter.onItemReturned(0)).show();
-                    snackbar.addCallback(new Snackbar.Callback() {
-                        @Override
-                        public void onDismissed(Snackbar transientBottomBar, int event) {
-                            if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
-                                Call<ResponseBody> call = CommunicationWithServerService.getApiService()
-                                        .canceledSuggestion(adapter.findSuggestionByPosition(viewHolder.getAdapterPosition()).getSuggestionId(),
-                                                LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
-                                call.enqueue(new Callback<ResponseBody>() {
-                                    @Override
-                                    public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                                        adapter.onItemReturned(2);
-                                    }
-
-                                    @Override
-                                    public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                                        t.printStackTrace();
-                                    }
-                                });
-                            } else if (event == Snackbar.Callback.DISMISS_EVENT_CONSECUTIVE) {
-                                adapter.onItemReturned(1);
-                            }
-                            super.onDismissed(transientBottomBar, event);
-                        }
-                    });
+                    canceledSuggestion(viewHolder);
                     break;
 
                 case ItemTouchHelper.RIGHT:
-                    adapter.onItemDismiss(viewHolder.getAdapterPosition());
-                    snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG);
-                    snackbar.setAction("Отменить одобрение", view -> adapter.onItemReturned(0)).show();
-                    snackbar.addCallback(new Snackbar.Callback() {
-                        @Override
-                        public void onDismissed(Snackbar transientBottomBar, int event) {
-                            if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
-                                Call<ResponseBody> call = CommunicationWithServerService.getApiService()
-                                        .confirmSuggestion(adapter.findSuggestionByPosition(viewHolder.getAdapterPosition()).getSuggestionId(),
-                                                LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
-                                call.enqueue(new Callback<ResponseBody>() {
-                                    @Override
-                                    public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                                        adapter.onItemReturned(2);
-                                    }
-
-                                    @Override
-                                    public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                                        t.printStackTrace();
-                                    }
-                                });
-                            } else if (event == Snackbar.Callback.DISMISS_EVENT_CONSECUTIVE) {
-                                adapter.onItemReturned(1);
-                            }
-                            super.onDismissed(transientBottomBar, event);
-                        }
-                    });
+                    confirmSuggestion(viewHolder);
                     break;
             }
 
+    }
+
+    private void canceledSuggestion(@NonNull RecyclerView.ViewHolder viewHolder) {
+        adapter.onItemDismiss(viewHolder.getAdapterPosition());
+        snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG);
+        snackbar.setAction("Отменить отказ", view -> adapter.onItemReturned(0)).show();
+        snackbar.addCallback(new Snackbar.Callback() {
+            @Override
+            public void onDismissed(Snackbar transientBottomBar, int event) {
+                if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                    Call<ResponseBody> call = CommunicationWithServerService.getApiService()
+                            .canceledSuggestion(adapter.findSuggestionByPosition(viewHolder.getAdapterPosition()).getSuggestionId(),
+                                    LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                            adapter.onItemReturned(2);
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+                } else if (event == Snackbar.Callback.DISMISS_EVENT_CONSECUTIVE) {
+                    adapter.onItemReturned(1);
+                }
+                super.onDismissed(transientBottomBar, event);
+            }
+        });
+    }
+
+    private void confirmSuggestion(@NonNull RecyclerView.ViewHolder viewHolder) {
+        adapter.onItemDismiss(viewHolder.getAdapterPosition());
+        snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG);
+        snackbar.setAction("Отменить одобрение", view -> adapter.onItemReturned(0)).show();
+        snackbar.addCallback(new Snackbar.Callback() {
+            @Override
+            public void onDismissed(Snackbar transientBottomBar, int event) {
+                if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                    Call<ResponseBody> call = CommunicationWithServerService.getApiService()
+                            .confirmSuggestion(adapter.findSuggestionByPosition(viewHolder.getAdapterPosition()).getSuggestionId(),
+                                    LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                            adapter.onItemReturned(2);
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+                } else if (event == Snackbar.Callback.DISMISS_EVENT_CONSECUTIVE) {
+                    adapter.onItemReturned(1);
+                }
+                super.onDismissed(transientBottomBar, event);
+            }
+        });
     }
 
     @Override

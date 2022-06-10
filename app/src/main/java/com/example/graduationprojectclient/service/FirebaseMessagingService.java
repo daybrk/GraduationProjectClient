@@ -26,8 +26,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         sendNotification(remoteMessage.getNotification());
     }
 
-
-
     private void sendNotification(RemoteMessage.Notification messageBody) {
 
         Intent intent = new Intent(this, MainActivity.class);

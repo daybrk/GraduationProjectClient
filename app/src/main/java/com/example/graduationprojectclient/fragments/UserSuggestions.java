@@ -35,7 +35,7 @@ public class UserSuggestions extends Fragment {
     List<Suggestion> suggestions;
     Button button;
     Button refresh;
-
+    RecyclerView recyclerView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,21 +46,7 @@ public class UserSuggestions extends Fragment {
         refresh = view.findViewById(R.id.button_refresh);
 
         button.setOnClickListener(v -> {
-            Call<ResponseBody> call = CommunicationWithServerService.getApiService()
-                    .logout(LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                    LogInActivity.getInstance().getDb().loginDao()
-                            .delete(LogInActivity.getInstance().getDb().loginDao().getLogin());
-                    MainActivity.getInstance().logout();
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-
-                }
-            });
+            logOut();
         });
 
         refresh.setOnClickListener(v -> {
@@ -69,27 +55,7 @@ public class UserSuggestions extends Fragment {
             fragmentTransaction.commit();
         });
 
-        Call<List<Suggestion>> call = CommunicationWithServerService.getApiService()
-                .getSuggestionByEmail(LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
-        call.enqueue(new Callback<List<Suggestion>>() {
-            @Override
-            public void onResponse(Call<List<Suggestion>> call, Response<List<Suggestion>> response) {
-                if (response.isSuccessful()) {
-                    suggestions = response.body();
-                    System.out.println(suggestions);
-                    RecyclerView recyclerView = view.findViewById(R.id.suggestion_recycler);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-                    recyclerView.setAdapter(new SuggestionRecyclerView(suggestions));
-                } else {
-                    System.out.println(response.errorBody());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Suggestion>> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
+        getSuggestionByEmail(view);
 
         FloatingActionButton fab = view.findViewById(R.id.add_new_suggestion);
         fab.setOnClickListener(view1 -> {
@@ -106,5 +72,47 @@ public class UserSuggestions extends Fragment {
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
 
         return view;
+    }
+
+    private void getSuggestionByEmail(View view) {
+        Call<List<Suggestion>> call = CommunicationWithServerService.getApiService()
+                .getSuggestionByEmail(LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
+        call.enqueue(new Callback<List<Suggestion>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Suggestion>> call, @NonNull Response<List<Suggestion>> response) {
+                if (response.isSuccessful()) {
+                    suggestions = response.body();
+                    System.out.println(suggestions);
+                    recyclerView = view.findViewById(R.id.suggestion_recycler);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                    recyclerView.setAdapter(new SuggestionRecyclerView(suggestions));
+                } else {
+                    System.out.println(response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Suggestion>> call, @NonNull Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void logOut() {
+        Call<ResponseBody> call = CommunicationWithServerService.getApiService()
+                .logout(LogInActivity.getInstance().getDb().loginDao().getLogin().getEmail());
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                LogInActivity.getInstance().getDb().loginDao()
+                        .delete(LogInActivity.getInstance().getDb().loginDao().getLogin());
+                MainActivity.getInstance().logout();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+
+            }
+        });
     }
 }
